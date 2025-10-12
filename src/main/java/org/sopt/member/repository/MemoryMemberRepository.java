@@ -1,11 +1,11 @@
-package org.sopt.repository;
+package org.sopt.member.repository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import org.sopt.domain.Member;
+import org.sopt.member.domain.Member;
 
 public class MemoryMemberRepository {
 

@@ -1,9 +1,9 @@
-package org.sopt.service;
+package org.sopt.member.service;
 
 import java.util.List;
 import java.util.Optional;
-import org.sopt.domain.Member;
-import org.sopt.repository.MemoryMemberRepository;
+import org.sopt.member.domain.Member;
+import org.sopt.member.repository.MemoryMemberRepository;
 
 public class MemberServiceImpl implements MemberService {
 

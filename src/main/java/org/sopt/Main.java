@@ -3,17 +3,18 @@ package org.sopt;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
-import org.sopt.controller.MemberController;
-import org.sopt.domain.Member;
-import org.sopt.repository.MemoryMemberRepository;
-import org.sopt.service.MemberServiceImpl;
+import org.sopt.member.controller.MemberController;
+import org.sopt.member.domain.Member;
+import org.sopt.member.repository.MemoryMemberRepository;
+import org.sopt.member.service.MemberService;
+import org.sopt.member.service.MemberServiceImpl;
 
 public class Main {
 
     public static void main(String[] args) {
 
         MemoryMemberRepository memberRepository = new MemoryMemberRepository();
-        MemberServiceImpl memberServiceImpl = new MemberServiceImpl();
+        MemberService memberServiceImpl = new MemberServiceImpl();
         MemberController memberController = new MemberController();
 
         Scanner scanner = new Scanner(System.in);
