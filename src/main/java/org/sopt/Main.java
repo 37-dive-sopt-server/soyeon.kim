@@ -22,7 +22,8 @@ public class Main {
             System.out.println("1️⃣. 회원 등록 ➕");
             System.out.println("2️⃣. ID로 회원 조회 🔍");
             System.out.println("3️⃣. 전체 회원 조회 📋");
-            System.out.println("4️⃣. 종료 🚪");
+            System.out.println("4️⃣. ID로 회원 삭제 ❌");
+            System.out.println("5️⃣. 종료 🚪");
             System.out.println("---------------------------------");
             System.out.print("메뉴를 선택하세요: ");
 
@@ -70,7 +71,9 @@ public class Main {
                         if (createdId != null) {
                             System.out.println("✅ 회원 등록 완료 (ID: " + createdId + ")");
                         }
-                        System.out.println("❌ 회원 등록 실패");
+                        else {
+                            System.out.println("❌ 회원 등록 실패");
+                        }
                     } catch (Exception e) {
                         System.out.println("❌ 회원 등록 실패");
                         ExceptionHandler.handle(e);
@@ -105,6 +108,19 @@ public class Main {
                     }
                     break;
                 case "4":
+                    System.out.print("삭제할 회원 ID를 입력하세요: ");
+                    try {
+                        Long id = Long.parseLong(scanner.nextLine());
+                        memberController.deleteById(id);
+                        System.out.println("✅ 회원 삭제 완료 (ID: " + id + ")");
+                    } catch (NumberFormatException e) {
+                        System.out.println("❌ 유효하지 않은 ID 형식입니다. 숫자를 입력해주세요.");
+                    } catch (Exception e) {
+                        System.out.println("❌ 회원 삭제 실패");
+                        ExceptionHandler.handle(e);
+                    }
+                    break;
+                case "5":
                     System.out.println("👋 서비스를 종료합니다. 안녕히 계세요!");
                     scanner.close();
                     return;
