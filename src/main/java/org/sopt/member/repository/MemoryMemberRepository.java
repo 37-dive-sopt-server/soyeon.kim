@@ -38,4 +38,15 @@ public class MemoryMemberRepository implements MemberRepository {
         return store.values().stream()
             .anyMatch(member -> member.isExistEmail(email));
     }
+
+    @Override
+    public void deleteById(Long id) {
+        if(id == null) {
+            throw new IllegalArgumentException("id는 빈 값일 수 없습니다.");
+        }
+        if (!store.containsKey(id)) {
+            throw new NoSuchElementException("id " + id + "번으로 등록된 회원이 존재하지 않습니다.");
+        }
+        store.remove(id);
+    }
 }

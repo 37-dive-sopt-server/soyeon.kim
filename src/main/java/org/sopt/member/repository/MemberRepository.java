@@ -13,4 +13,6 @@ public interface MemberRepository {
     List<Member> findAll();
 
     boolean existsByEmail(String email);
+
+    void deleteById(Long id);
 }
