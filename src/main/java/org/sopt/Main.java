@@ -4,17 +4,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 import org.sopt.member.controller.MemberController;
+import org.sopt.member.controller.dto.MemberCreateRequest;
 import org.sopt.member.domain.Member;
-import org.sopt.member.repository.MemoryMemberRepository;
-import org.sopt.member.service.MemberService;
-import org.sopt.member.service.MemberServiceImpl;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        MemoryMemberRepository memberRepository = new MemoryMemberRepository();
-        MemberService memberServiceImpl = new MemberServiceImpl();
         MemberController memberController = new MemberController();
 
         Scanner scanner = new Scanner(System.in);
@@ -39,7 +35,36 @@ public class Main {
                         System.out.println("⚠️ 이름을 입력해주세요.");
                         continue;
                     }
-                    Long createdId = memberController.createMember(name);
+
+                    System.out.print("등록할 회원 생일을 입력하세요: ");
+                    String birthday = scanner.nextLine();
+                    if (birthday.trim().isEmpty()) {
+                        System.out.println("⚠️ 생일을 입력해주세요.");
+                        continue;
+                    }
+
+                    System.out.print("등록할 회원 이메일을 입력하세요: ");
+                    String email = scanner.nextLine();
+                    if (email.trim().isEmpty()) {
+                        System.out.println("⚠️ 이메일을 입력해주세요.");
+                        continue;
+                    }
+
+                    System.out.print("등록할 회원 성별을 입력하세요(MALE, FEMALE): ");
+                    String gender = scanner.nextLine();
+                    if (gender.trim().isEmpty()) {
+                        System.out.println("⚠️ 성별을 입력해주세요.");
+                        continue;
+                    }
+
+                    MemberCreateRequest memberCreateRequest = MemberCreateRequest.of(
+                        name,
+                        birthday,
+                        email,
+                        gender
+                    );
+                    Long createdId = memberController.createMember(memberCreateRequest);
+
                     if (createdId != null) {
                         System.out.println("✅ 회원 등록 완료 (ID: " + createdId + ")");
                     } else {
