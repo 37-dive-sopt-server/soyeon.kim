@@ -52,6 +52,10 @@ public class Member {
         this.updatedAt = now;
     }
 
+    public boolean isExistEmail(String email) {
+        return this.email.equals(email);
+    }
+
     public Long getId() {
         return id;
     }

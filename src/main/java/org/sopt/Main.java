@@ -3,6 +3,7 @@ package org.sopt;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
+import org.sopt.global.exception.ExceptionHandler;
 import org.sopt.member.controller.MemberController;
 import org.sopt.member.controller.dto.MemberCreateRequest;
 import org.sopt.member.domain.Member;
@@ -29,46 +30,50 @@ public class Main {
 
             switch (choice) {
                 case "1":
-                    System.out.print("등록할 회원 이름을 입력하세요: ");
-                    String name = scanner.nextLine();
-                    if (name.trim().isEmpty()) {
-                        System.out.println("⚠️ 이름을 입력해주세요.");
-                        continue;
-                    }
+                    try {
+                        System.out.print("등록할 회원 이름을 입력하세요: ");
+                        String name = scanner.nextLine();
+                        if (name.trim().isEmpty()) {
+                            System.out.println("⚠️ 이름을 입력해주세요.");
+                            continue;
+                        }
 
-                    System.out.print("등록할 회원 생일을 입력하세요: ");
-                    String birthday = scanner.nextLine();
-                    if (birthday.trim().isEmpty()) {
-                        System.out.println("⚠️ 생일을 입력해주세요.");
-                        continue;
-                    }
+                        System.out.print("등록할 회원 생일을 입력하세요(2000-00-00): ");
+                        String birthday = scanner.nextLine();
+                        if (birthday.trim().isEmpty()) {
+                            System.out.println("⚠️ 생일을 입력해주세요.");
+                            continue;
+                        }
 
-                    System.out.print("등록할 회원 이메일을 입력하세요: ");
-                    String email = scanner.nextLine();
-                    if (email.trim().isEmpty()) {
-                        System.out.println("⚠️ 이메일을 입력해주세요.");
-                        continue;
-                    }
+                        System.out.print("등록할 회원 이메일을 입력하세요: ");
+                        String email = scanner.nextLine();
+                        if (email.trim().isEmpty()) {
+                            System.out.println("⚠️ 이메일을 입력해주세요.");
+                            continue;
+                        }
 
-                    System.out.print("등록할 회원 성별을 입력하세요(MALE, FEMALE): ");
-                    String gender = scanner.nextLine();
-                    if (gender.trim().isEmpty()) {
-                        System.out.println("⚠️ 성별을 입력해주세요.");
-                        continue;
-                    }
+                        System.out.print("등록할 회원 성별을 입력하세요(MALE, FEMALE): ");
+                        String gender = scanner.nextLine();
+                        if (gender.trim().isEmpty()) {
+                            System.out.println("⚠️ 성별을 입력해주세요.");
+                            continue;
+                        }
 
-                    MemberCreateRequest memberCreateRequest = MemberCreateRequest.of(
-                        name,
-                        birthday,
-                        email,
-                        gender
-                    );
-                    Long createdId = memberController.createMember(memberCreateRequest);
+                        MemberCreateRequest memberCreateRequest = MemberCreateRequest.of(
+                            name,
+                            birthday,
+                            email,
+                            gender
+                        );
+                        Long createdId = memberController.createMember(memberCreateRequest);
 
-                    if (createdId != null) {
-                        System.out.println("✅ 회원 등록 완료 (ID: " + createdId + ")");
-                    } else {
+                        if (createdId != null) {
+                            System.out.println("✅ 회원 등록 완료 (ID: " + createdId + ")");
+                        }
                         System.out.println("❌ 회원 등록 실패");
+                    } catch (Exception e) {
+                        System.out.println("❌ 회원 등록 실패");
+                        ExceptionHandler.handle(e);
                     }
                     break;
                 case "2":

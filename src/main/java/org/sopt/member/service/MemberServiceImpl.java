@@ -12,6 +12,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Long join(MemberJoinCommand memberJoinCommand) {
+        if(memberRepository.existsByEmail(memberJoinCommand.email())) {
+            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+        }
+
         Member member = Member.of(
             memberJoinCommand.name(),
             memberJoinCommand.birthday(),
@@ -19,6 +23,7 @@ public class MemberServiceImpl implements MemberService {
             memberJoinCommand.gender()
         );
         Member savedMember = memberRepository.save(member);
+
         return savedMember.getId();
     }
 

@@ -11,4 +11,6 @@ public interface MemberRepository {
     Optional<Member> findById(Long id);
 
     List<Member> findAll();
+
+    boolean existsByEmail(String email);
 }
