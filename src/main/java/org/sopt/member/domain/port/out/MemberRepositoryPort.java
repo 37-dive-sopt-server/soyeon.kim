@@ -1,10 +1,10 @@
-package org.sopt.member.repository;
+package org.sopt.member.domain.port.out;
 
-import org.sopt.member.domain.Member;
+import org.sopt.member.domain.model.Member;
 import java.util.List;
 import java.util.Optional;
 
-public interface MemberRepository {
+public interface MemberRepositoryPort {
 
     Member save(Member entity);
 
