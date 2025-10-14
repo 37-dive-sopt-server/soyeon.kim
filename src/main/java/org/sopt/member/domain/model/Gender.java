@@ -1,4 +1,4 @@
-package org.sopt.member.domain;
+package org.sopt.member.domain.model;
 
 public enum Gender {
     MALE,

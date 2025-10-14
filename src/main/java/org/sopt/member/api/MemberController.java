@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import org.sopt.member.api.dto.MemberCreateRequest;
 import org.sopt.member.api.mapper.MemberRequestMapper;
-import org.sopt.member.domain.Member;
-import org.sopt.member.service.MemberService;
+import org.sopt.member.domain.model.Member;
+import org.sopt.member.service.port.in.MemberService;
 import org.sopt.member.service.MemberServiceImpl;
 import org.sopt.member.service.dto.MemberJoinCommand;
 
