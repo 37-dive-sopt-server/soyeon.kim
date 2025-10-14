@@ -4,13 +4,13 @@ import java.util.List;
 import java.util.Optional;
 import org.sopt.member.domain.model.Member;
 import org.sopt.member.domain.port.out.MemberRepositoryPort;
-import org.sopt.member.infrastructure.MemoryMemberRepositoryPort;
+import org.sopt.member.infrastructure.MemoryMemberRepository;
 import org.sopt.member.application.dto.command.MemberJoinCommand;
 import org.sopt.member.application.port.in.MemberUsecase;
 
 public class MemberService implements MemberUsecase {
 
-    private final MemberRepositoryPort memberRepository = new MemoryMemberRepositoryPort();
+    private final MemberRepositoryPort memberRepository = new MemoryMemberRepository();
 
     @Override
     public Long join(MemberJoinCommand memberJoinCommand) {

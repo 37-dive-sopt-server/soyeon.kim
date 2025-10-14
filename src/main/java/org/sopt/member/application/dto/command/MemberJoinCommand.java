@@ -1,4 +1,4 @@
-package org.sopt.member.service.dto.command;
+package org.sopt.member.application.dto.command;
 
 import java.time.LocalDate;
 import org.sopt.member.domain.model.Gender;

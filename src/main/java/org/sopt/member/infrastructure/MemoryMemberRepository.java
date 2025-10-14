@@ -1,12 +1,13 @@
-package org.sopt.member.repository;
+package org.sopt.member.infrastructure;
 
 import java.time.Instant;
-import org.sopt.member.domain.Member;
+import org.sopt.member.domain.model.Member;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
+import org.sopt.member.domain.port.out.MemberRepositoryPort;
 
-public class MemoryMemberRepository implements MemberRepository {
+public class MemoryMemberRepository implements MemberRepositoryPort {
 
     private final Map<Long, Member> store = new ConcurrentHashMap<>();
     private final AtomicLong sequence = new AtomicLong(1);

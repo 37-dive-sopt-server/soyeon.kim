@@ -5,15 +5,15 @@ import java.util.Optional;
 import org.sopt.member.api.dto.MemberCreateRequest;
 import org.sopt.member.api.mapper.MemberRequestMapper;
 import org.sopt.member.domain.model.Member;
-import org.sopt.member.service.port.in.MemberService;
-import org.sopt.member.service.MemberServiceImpl;
-import org.sopt.member.service.dto.MemberJoinCommand;
+import org.sopt.member.application.port.in.MemberUsecase;
+import org.sopt.member.application.service.MemberService;
+import org.sopt.member.application.dto.command.MemberJoinCommand;
 
 public class MemberController {
 
     // TODO 유스케이스 별로 서비스 분리
     // TODO port, adapter 분리
-    private final MemberService memberService = new MemberServiceImpl();
+    private final MemberUsecase memberService = new MemberService();
 
     // TODO response dto 추가
     public Long createMember(MemberCreateRequest createRequest) {
