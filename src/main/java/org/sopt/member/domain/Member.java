@@ -37,7 +37,7 @@ public class Member {
         String email,
         Gender gender
     ) {
-        validateIsAdult(birthday);
+        validateIsAdult(LocalDate.now(), birthday);
         return new Member(null, name, birthday, email, gender, null, null);
     }
 
@@ -57,8 +57,8 @@ public class Member {
         return this.email.equals(email);
     }
 
-    private static void validateIsAdult(LocalDate birthday) {
-        int age = LocalDate.now().getYear() - birthday.getYear();
+    private static void validateIsAdult(LocalDate now, LocalDate birthday) {
+        int age = now.getYear() - birthday.getYear() + 1;
         if (age < 20) {
             throw new IllegalArgumentException("20세 미만은 가입할 수 없습니다.");
         }
