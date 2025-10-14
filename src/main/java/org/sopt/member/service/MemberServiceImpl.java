@@ -3,12 +3,13 @@ package org.sopt.member.service;
 import java.util.List;
 import java.util.Optional;
 import org.sopt.member.domain.Member;
+import org.sopt.member.repository.MemberRepository;
 import org.sopt.member.repository.MemoryMemberRepository;
 import org.sopt.member.service.dto.MemberJoinCommand;
 
 public class MemberServiceImpl implements MemberService {
 
-    private final MemoryMemberRepository memberRepository = new MemoryMemberRepository();
+    private final MemberRepository memberRepository = new MemoryMemberRepository();
 
     @Override
     public Long join(MemberJoinCommand memberJoinCommand) {
