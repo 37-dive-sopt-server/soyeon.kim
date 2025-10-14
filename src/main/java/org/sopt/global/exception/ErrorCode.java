@@ -1,0 +1,37 @@
+package org.sopt.global.exception;
+
+public enum ErrorCode {
+
+    // =================== COMMON ===================
+    // 400 BAD REQUEST
+    INVALID_NUMBER_FORMAT(400, "COM_001", "숫자만 입력해주세요."),
+    INVALID_EMAIL_FORMAT(400, "COM_002", "잘못된 이메일 형식입니다."),
+
+    // 404 NOT FOUND
+    RESOURCE_NOT_FOUND(404, "COM_003", "존재하지 않는 리소스입니다."),
+
+    // 500 INTERNAL SERVER ERROR
+    INTERNAL_SERVER_ERROR(500, "COM_004", "서버 내부 오류가 발생했습니다.");
+
+    private final int status;
+    private final String code;
+    private final String message;
+
+    ErrorCode(int status, String code, String message) {
+        this.status = status;
+        this.code = code;
+        this.message = message;
+    }
+
+    public int getStatus() {
+        return this.status;
+    }
+
+    public String getCode() {
+        return this.code;
+    }
+
+    public String getMessage() {
+        return this.message;
+    }
+}
