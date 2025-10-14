@@ -37,7 +37,8 @@ public class Member {
         String email,
         Gender gender
     ) {
-       return new Member(null, name, birthday, email, gender, null, null);
+        validateIsAdult(birthday);
+        return new Member(null, name, birthday, email, gender, null, null);
     }
 
     public void updateId(Long id) {
@@ -54,6 +55,13 @@ public class Member {
 
     public boolean isExistEmail(String email) {
         return this.email.equals(email);
+    }
+
+    private static void validateIsAdult(LocalDate birthday) {
+        int age = LocalDate.now().getYear() - birthday.getYear();
+        if (age < 20) {
+            throw new IllegalArgumentException("20세 미만은 가입할 수 없습니다.");
+        }
     }
 
     public Long getId() {
