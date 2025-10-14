@@ -1,7 +1,7 @@
-package org.sopt.member.service.dto;
+package org.sopt.member.service.dto.command;
 
 import java.time.LocalDate;
-import org.sopt.member.domain.Gender;
+import org.sopt.member.domain.model.Gender;
 
 public record MemberJoinCommand(
     String name,
