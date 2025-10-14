@@ -1,11 +1,11 @@
-package org.sopt.member.service;
+package org.sopt.member.application.port.in;
 
 import java.util.List;
 import java.util.Optional;
-import org.sopt.member.domain.Member;
-import org.sopt.member.service.dto.MemberJoinCommand;
+import org.sopt.member.domain.model.Member;
+import org.sopt.member.application.dto.command.MemberJoinCommand;
 
-public interface MemberService {
+public interface MemberUsecase {
 
     Long join(MemberJoinCommand memberJoinCommand);
 

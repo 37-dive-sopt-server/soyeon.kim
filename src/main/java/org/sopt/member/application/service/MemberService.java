@@ -1,15 +1,16 @@
-package org.sopt.member.service;
+package org.sopt.member.application.service;
 
 import java.util.List;
 import java.util.Optional;
-import org.sopt.member.domain.Member;
-import org.sopt.member.repository.MemberRepository;
-import org.sopt.member.repository.MemoryMemberRepository;
-import org.sopt.member.service.dto.MemberJoinCommand;
+import org.sopt.member.domain.model.Member;
+import org.sopt.member.domain.port.out.MemberRepositoryPort;
+import org.sopt.member.infrastructure.MemoryMemberRepositoryPort;
+import org.sopt.member.application.dto.command.MemberJoinCommand;
+import org.sopt.member.application.port.in.MemberUsecase;
 
-public class MemberServiceImpl implements MemberService {
+public class MemberService implements MemberUsecase {
 
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
+    private final MemberRepositoryPort memberRepository = new MemoryMemberRepositoryPort();
 
     @Override
     public Long join(MemberJoinCommand memberJoinCommand) {
