@@ -2,7 +2,7 @@ package org.sopt.member.api;
 
 import java.util.List;
 import java.util.Optional;
-import org.sopt.member.api.dto.MemberCreateRequest;
+import org.sopt.member.api.dto.request.MemberCreateRequest;
 import org.sopt.member.api.mapper.MemberRequestMapper;
 import org.sopt.member.domain.model.Member;
 import org.sopt.member.application.port.in.MemberUsecase;

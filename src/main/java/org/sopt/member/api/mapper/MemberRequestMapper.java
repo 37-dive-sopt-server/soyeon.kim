@@ -1,7 +1,7 @@
 package org.sopt.member.api.mapper;
 
 import java.time.LocalDate;
-import org.sopt.member.api.dto.MemberCreateRequest;
+import org.sopt.member.api.dto.request.MemberCreateRequest;
 import org.sopt.member.domain.model.Gender;
 import org.sopt.member.application.dto.command.MemberJoinCommand;
 
