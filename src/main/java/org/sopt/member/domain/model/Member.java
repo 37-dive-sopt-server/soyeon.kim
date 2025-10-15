@@ -1,7 +1,10 @@
 package org.sopt.member.domain.model;
 
+import static org.sopt.global.exception.ErrorCode.AGE_MUST_UPPER_THAN_20;
+
 import java.time.Instant;
 import java.time.LocalDate;
+import org.sopt.member.domain.exception.MemberException;
 
 public class Member {
 
@@ -60,7 +63,7 @@ public class Member {
     private static void validateIsAdult(LocalDate now, LocalDate birthday) {
         int age = now.getYear() - birthday.getYear() + 1;
         if (age < 20) {
-            throw new IllegalArgumentException("20세 미만은 가입할 수 없습니다.");
+            throw new MemberException(AGE_MUST_UPPER_THAN_20);
         }
     }
 

@@ -1,8 +1,11 @@
 package org.sopt.member.application.service;
 
+import static org.sopt.global.exception.ErrorCode.MEMBER_NOT_FOUND;
+
 import java.util.Optional;
 import org.sopt.member.application.dto.result.MemberFindOneResult;
 import org.sopt.member.application.port.in.MemberFindOneUseCase;
+import org.sopt.member.domain.exception.MemberException;
 import org.sopt.member.domain.model.Member;
 import org.sopt.member.domain.port.out.MemberRepositoryPort;
 
@@ -18,7 +21,7 @@ public class MemberFindOneService implements MemberFindOneUseCase {
     public MemberFindOneResult findOne(Long id) {
         Optional<Member> member = memberRepository.findById(id);
         if(member.isEmpty()) {
-            throw new RuntimeException("존재하지 않는 회원입니다.");
+            throw new MemberException(MEMBER_NOT_FOUND);
         }
         return MemberFindOneResult.from(member.get());
     }
