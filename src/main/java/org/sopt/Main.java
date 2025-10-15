@@ -2,6 +2,7 @@ package org.sopt;
 
 import java.util.Scanner;
 import org.sopt.global.exception.GlobalExceptionHandler;
+import org.sopt.global.response.ApiResponse;
 import org.sopt.global.trace.TraceIdManager;
 import org.sopt.member.api.MemberController;
 import org.sopt.member.api.dto.request.MemberCreateRequest;
@@ -81,9 +82,9 @@ public class Main {
                             email,
                             gender
                         );
-                        MemberCreateResponse response = memberController
+                        ApiResponse<MemberCreateResponse, Void> response = memberController
                             .createMember(memberCreateRequest);
-                        Long createdId = response.id();
+                        Long createdId = response.data().id();
 
                         if (createdId != null) {
                             System.out.println("✅ 회원 등록 완료 (ID: " + createdId + ")");
@@ -99,12 +100,12 @@ public class Main {
                     System.out.print("조회할 회원 ID를 입력하세요: ");
                     try {
                         Long id = Long.parseLong(scanner.nextLine());
-                        MemberFindOneResponse foundMember = memberController.findMemberById(id);
-                        System.out.println("✅ 조회된 회원: ID= " + foundMember.id()
-                            + ", 이름= " + foundMember.name()
-                            + ", 생년월일= " + foundMember.birthday()
-                            + ", 이메일= " + foundMember.email()
-                            + ", 성별= " + foundMember.gender());
+                        ApiResponse<MemberFindOneResponse, Void> foundMember = memberController.findMemberById(id);
+                        System.out.println("✅ 조회된 회원: ID= " + foundMember.data().id()
+                            + ", 이름= " + foundMember.data().name()
+                            + ", 생년월일= " + foundMember.data().birthday()
+                            + ", 이메일= " + foundMember.data().email()
+                            + ", 성별= " + foundMember.data().gender());
                     } catch (NumberFormatException e) {
                         System.out.println("❌ 유효하지 않은 ID 형식입니다. 숫자를 입력해주세요.");
                         GlobalExceptionHandler.handle(e);
@@ -114,12 +115,12 @@ public class Main {
                     }
                     break;
                 case "3":
-                    MemberListResponse allMembers = memberController.findAllMembers();
-                    if (allMembers.members().isEmpty()) {
+                    ApiResponse<MemberListResponse, Void> allMembers = memberController.findAllMembers();
+                    if (allMembers.data().members().isEmpty()) {
                         System.out.println("ℹ️ 등록된 회원이 없습니다.");
                     } else {
                         System.out.println("--- 📋 전체 회원 목록 📋 ---");
-                        for (MemberInfoResponse member : allMembers.members()) {
+                        for (MemberInfoResponse member : allMembers.data().members()) {
                             System.out.println(
                                 "👤 ID=" + member.id() + ", 이름=" + member.name()
                                     + ", 생년월일= " + member.birthday()
@@ -134,8 +135,10 @@ public class Main {
                     System.out.print("삭제할 회원 ID를 입력하세요: ");
                     try {
                         Long id = Long.parseLong(scanner.nextLine());
-                        memberController.deleteById(id);
-                        System.out.println("✅ 회원 삭제 완료 (ID: " + id + ")");
+                        ApiResponse<Void, Void> response = memberController.deleteById(id);
+                        if(response.status() == 200) {
+                            System.out.println("✅ 회원 삭제 완료 (ID: " + id + ")");
+                        }
                     } catch (NumberFormatException e) {
                         System.out.println("❌ 유효하지 않은 ID 형식입니다. 숫자를 입력해주세요.");
                     } catch (Exception e) {

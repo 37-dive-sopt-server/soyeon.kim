@@ -12,12 +12,16 @@ public record ApiResponse<T, M>(
     M meta
 ) {
 
+    public static ApiResponse<Void, Void> ok(String message) {
+        return new ApiResponse<>(true, 200, message, null, null, null);
+    }
+
     public static <T> ApiResponse<T, Void> ok(T data, String message) {
         return new ApiResponse<>(true, 200, message, data, null, null);
     }
 
-    public static ApiResponse<Void, Void> created(String message) {
-        return new ApiResponse<>(true, 201, message, null, null, null);
+    public static <T>ApiResponse<T, Void> created(T data, String message) {
+        return new ApiResponse<>(true, 201, message, data, null, null);
     }
 
     public static ApiResponse<Void, ErrorMeta> onFailure(ErrorCode errorCode, ErrorMeta errorMeta) {
@@ -29,5 +33,10 @@ public record ApiResponse<T, M>(
             errorCode.getCode(),
             errorMeta
         );
+    }
+
+    @Override
+    public T data() {
+        return data;
     }
 }

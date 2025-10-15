@@ -1,5 +1,6 @@
 package org.sopt.member.api;
 
+import org.sopt.global.response.ApiResponse;
 import org.sopt.member.api.dto.request.MemberCreateRequest;
 import org.sopt.member.api.dto.response.MemberCreateResponse;
 import org.sopt.member.api.dto.response.MemberFindOneResponse;
@@ -34,23 +35,28 @@ public class MemberController {
         this.memberDeleteUseCase = memberDeleteUseCase;
     }
 
-    public MemberCreateResponse createMember(MemberCreateRequest createRequest) {
+    public ApiResponse<MemberCreateResponse, Void> createMember(MemberCreateRequest createRequest) {
         MemberJoinCommand memberJoinCommand = MemberRequestMapper.toJoinCommand(createRequest);
         MemberJoinResult memberJoinResult = memberJoinUseCase.join(memberJoinCommand);
-        return MemberResponseMapper.toMemberCreateResponse(memberJoinResult);
+        MemberCreateResponse responseData = MemberResponseMapper.toMemberCreateResponse(memberJoinResult);
+
+        return ApiResponse.created(responseData, "회원가입이 성공적으로 완료되었습니다.");
     }
 
-    public MemberFindOneResponse findMemberById(Long id) {
+    public ApiResponse<MemberFindOneResponse, Void> findMemberById(Long id) {
         MemberFindOneResult memberFindOneResult = memberFindOneUseCase.findOne(id);
-        return MemberResponseMapper.toMemberFindOneResponse(memberFindOneResult);
+        MemberFindOneResponse responseData = MemberResponseMapper.toMemberFindOneResponse(memberFindOneResult);
+        return ApiResponse.ok(responseData, "회원 조회가 성공적으로 완료되었습니다.");
     }
 
-    public MemberListResponse findAllMembers() {
+    public ApiResponse<MemberListResponse, Void> findAllMembers() {
         MemberListResult memberListResult = memberFindAllUseCase.findAllMembers();
-        return MemberResponseMapper.toMemberListResponse(memberListResult);
+        MemberListResponse responseData = MemberResponseMapper.toMemberListResponse(memberListResult);
+        return ApiResponse.ok(responseData, "회원 전체 조회가 성공적으로 완료되었습니다.");
     }
 
-    public void deleteById(Long id) {
+    public ApiResponse<Void, Void> deleteById(Long id) {
         memberDeleteUseCase.deleteMember(id);
+        return ApiResponse.ok("회원 삭제가 성공적으로 완료되었습니다.");
     }
 }
