@@ -71,4 +71,16 @@ public class Member {
     public String getName() {
         return name;
     }
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
 }

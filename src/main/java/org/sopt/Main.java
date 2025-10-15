@@ -3,20 +3,39 @@ package org.sopt;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
-import org.sopt.global.exception.ExceptionHandler;
-import org.sopt.member.controller.MemberController;
-import org.sopt.member.controller.dto.MemberCreateRequest;
-import org.sopt.member.domain.Member;
+import org.sopt.global.exception.GlobalExceptionHandler;
+import org.sopt.global.trace.TraceIdManager;
+import org.sopt.member.api.MemberController;
+import org.sopt.member.api.dto.request.MemberCreateRequest;
+import org.sopt.member.api.dto.response.MemberCreateResponse;
+import org.sopt.member.api.dto.response.MemberFindOneResponse;
+import org.sopt.member.application.port.in.MemberFindOneUsecase;
+import org.sopt.member.application.port.in.MemberJoinUsecase;
+import org.sopt.member.application.port.in.MemberUsecase;
+import org.sopt.member.application.service.MemberFindOneService;
+import org.sopt.member.application.service.MemberJoinService;
+import org.sopt.member.application.service.MemberService;
+import org.sopt.member.domain.model.Member;
+import org.sopt.member.domain.port.out.MemberRepositoryPort;
+import org.sopt.member.infrastructure.MemoryMemberRepository;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        MemberController memberController = new MemberController();
+        // TODO AppConfig 로 빼기
+        MemberRepositoryPort memberRepository = new MemoryMemberRepository();
+        MemberUsecase memberUsecase = new MemberService();
+        MemberJoinUsecase memberJoinUsecase = new MemberJoinService(memberRepository);
+        MemberFindOneUsecase memberFindOneUsecase = new MemberFindOneService(memberRepository);
+        MemberController memberController = new MemberController(memberUsecase, memberJoinUsecase,
+            memberFindOneUsecase);
 
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
+            TraceIdManager.createTraceId();
+
             System.out.println("\n✨ --- DIVE SOPT 회원 관리 서비스 --- ✨");
             System.out.println("---------------------------------");
             System.out.println("1️⃣. 회원 등록 ➕");
@@ -60,38 +79,42 @@ public class Main {
                             continue;
                         }
 
-                        MemberCreateRequest memberCreateRequest = MemberCreateRequest.of(
+                        MemberCreateRequest memberCreateRequest = new MemberCreateRequest(
                             name,
                             birthday,
                             email,
                             gender
                         );
-                        Long createdId = memberController.createMember(memberCreateRequest);
+                        MemberCreateResponse response = memberController
+                            .createMember(memberCreateRequest);
+                        Long createdId = response.id();
 
                         if (createdId != null) {
                             System.out.println("✅ 회원 등록 완료 (ID: " + createdId + ")");
-                        }
-                        else {
+                        } else {
                             System.out.println("❌ 회원 등록 실패");
                         }
                     } catch (Exception e) {
                         System.out.println("❌ 회원 등록 실패");
-                        ExceptionHandler.handle(e);
+                        GlobalExceptionHandler.handle(e);
                     }
                     break;
                 case "2":
                     System.out.print("조회할 회원 ID를 입력하세요: ");
                     try {
                         Long id = Long.parseLong(scanner.nextLine());
-                        Optional<Member> foundMember = memberController.findMemberById(id);
-                        if (foundMember.isPresent()) {
-                            System.out.println("✅ 조회된 회원: ID=" + foundMember.get().getId() + ", 이름="
-                                + foundMember.get().getName());
-                        } else {
-                            System.out.println("⚠️ 해당 ID의 회원을 찾을 수 없습니다.");
-                        }
+                        MemberFindOneResponse foundMember = memberController.findMemberById(id);
+                        System.out.println("✅ 조회된 회원: ID= " + foundMember.id()
+                            + ", 이름= " + foundMember.name()
+                            + ", 생년월일= " + foundMember.birthday()
+                            + ", 이메일= " + foundMember.email()
+                            + ", 성별= " + foundMember.gender());
                     } catch (NumberFormatException e) {
                         System.out.println("❌ 유효하지 않은 ID 형식입니다. 숫자를 입력해주세요.");
+                        GlobalExceptionHandler.handle(e);
+                    } catch (Exception e) {
+                        System.out.println("❌ 회원 조회 실패");
+                        GlobalExceptionHandler.handle(e);
                     }
                     break;
                 case "3":
@@ -117,12 +140,13 @@ public class Main {
                         System.out.println("❌ 유효하지 않은 ID 형식입니다. 숫자를 입력해주세요.");
                     } catch (Exception e) {
                         System.out.println("❌ 회원 삭제 실패");
-                        ExceptionHandler.handle(e);
+                        GlobalExceptionHandler.handle(e);
                     }
                     break;
                 case "5":
                     System.out.println("👋 서비스를 종료합니다. 안녕히 계세요!");
                     scanner.close();
+                    TraceIdManager.clear();
                     return;
                 default:
                     System.out.println("🚫 잘못된 메뉴 선택입니다. 다시 시도해주세요.");

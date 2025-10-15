@@ -12,11 +12,6 @@ public class MemberService implements MemberUsecase {
     private final MemberRepositoryPort memberRepository = new MemoryMemberRepository();
 
     @Override
-    public Optional<Member> findOne(Long memberId) {
-        return memberRepository.findById(memberId);
-    }
-
-    @Override
     public List<Member> findAllMembers() {
         return memberRepository.findAll();
     }
