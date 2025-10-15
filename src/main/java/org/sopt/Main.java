@@ -1,7 +1,5 @@
 package org.sopt;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 import org.sopt.global.exception.GlobalExceptionHandler;
 import org.sopt.global.trace.TraceIdManager;
@@ -9,13 +7,16 @@ import org.sopt.member.api.MemberController;
 import org.sopt.member.api.dto.request.MemberCreateRequest;
 import org.sopt.member.api.dto.response.MemberCreateResponse;
 import org.sopt.member.api.dto.response.MemberFindOneResponse;
+import org.sopt.member.api.dto.response.MemberInfoResponse;
+import org.sopt.member.api.dto.response.MemberListResponse;
+import org.sopt.member.application.port.in.MemberFindAllUsecase;
 import org.sopt.member.application.port.in.MemberFindOneUsecase;
 import org.sopt.member.application.port.in.MemberJoinUsecase;
 import org.sopt.member.application.port.in.MemberUsecase;
+import org.sopt.member.application.service.MemberFindAllService;
 import org.sopt.member.application.service.MemberFindOneService;
 import org.sopt.member.application.service.MemberJoinService;
 import org.sopt.member.application.service.MemberService;
-import org.sopt.member.domain.model.Member;
 import org.sopt.member.domain.port.out.MemberRepositoryPort;
 import org.sopt.member.infrastructure.MemoryMemberRepository;
 
@@ -24,12 +25,7 @@ public class Main {
     public static void main(String[] args) {
 
         // TODO AppConfig 로 빼기
-        MemberRepositoryPort memberRepository = new MemoryMemberRepository();
-        MemberUsecase memberUsecase = new MemberService();
-        MemberJoinUsecase memberJoinUsecase = new MemberJoinService(memberRepository);
-        MemberFindOneUsecase memberFindOneUsecase = new MemberFindOneService(memberRepository);
-        MemberController memberController = new MemberController(memberUsecase, memberJoinUsecase,
-            memberFindOneUsecase);
+        MemberController memberController = getMemberController();
 
         Scanner scanner = new Scanner(System.in);
 
@@ -118,14 +114,18 @@ public class Main {
                     }
                     break;
                 case "3":
-                    List<Member> allMembers = memberController.getAllMembers();
-                    if (allMembers.isEmpty()) {
+                    MemberListResponse allMembers = memberController.getAllMembers();
+                    if (allMembers.members().isEmpty()) {
                         System.out.println("ℹ️ 등록된 회원이 없습니다.");
                     } else {
                         System.out.println("--- 📋 전체 회원 목록 📋 ---");
-                        for (Member member : allMembers) {
+                        for (MemberInfoResponse member : allMembers.members()) {
                             System.out.println(
-                                "👤 ID=" + member.getId() + ", 이름=" + member.getName());
+                                "👤 ID=" + member.id() + ", 이름=" + member.name()
+                                    + ", 생년월일= " + member.birthday()
+                                    + ", 이메일= " + member.email()
+                                    + ", 성별= " + member.gender()
+                            );
                         }
                         System.out.println("--------------------------");
                     }
@@ -152,5 +152,15 @@ public class Main {
                     System.out.println("🚫 잘못된 메뉴 선택입니다. 다시 시도해주세요.");
             }
         }
+    }
+
+    private static MemberController getMemberController() {
+        MemberRepositoryPort memberRepository = new MemoryMemberRepository();
+        MemberUsecase memberUsecase = new MemberService();
+        MemberJoinUsecase memberJoinUsecase = new MemberJoinService(memberRepository);
+        MemberFindOneUsecase memberFindOneUsecase = new MemberFindOneService(memberRepository);
+        MemberFindAllUsecase memberFindAllUsecase = new MemberFindAllService(memberRepository);
+        return new MemberController(memberUsecase, memberJoinUsecase,
+            memberFindOneUsecase, memberFindAllUsecase);
     }
 }

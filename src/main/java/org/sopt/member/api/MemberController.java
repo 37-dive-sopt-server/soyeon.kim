@@ -4,10 +4,13 @@ import java.util.List;
 import org.sopt.member.api.dto.request.MemberCreateRequest;
 import org.sopt.member.api.dto.response.MemberCreateResponse;
 import org.sopt.member.api.dto.response.MemberFindOneResponse;
+import org.sopt.member.api.dto.response.MemberListResponse;
 import org.sopt.member.api.mapper.MemberRequestMapper;
 import org.sopt.member.api.mapper.MemberResponseMapper;
 import org.sopt.member.application.dto.result.MemberFindOneResult;
 import org.sopt.member.application.dto.result.MemberJoinResult;
+import org.sopt.member.application.dto.result.MemberListResult;
+import org.sopt.member.application.port.in.MemberFindAllUsecase;
 import org.sopt.member.application.port.in.MemberFindOneUsecase;
 import org.sopt.member.application.port.in.MemberJoinUsecase;
 import org.sopt.member.domain.model.Member;
@@ -21,15 +24,18 @@ public class MemberController {
     private final MemberUsecase memberUsecase;
     private final MemberJoinUsecase memberJoinUsecase;
     private final MemberFindOneUsecase memberFindOneUsecase;
+    private final MemberFindAllUsecase memberFindAllUsecase;
 
     public MemberController(
         MemberUsecase memberUsecase,
         MemberJoinUsecase memberJoinUsecase,
-        MemberFindOneUsecase memberFindOneUsecase
+        MemberFindOneUsecase memberFindOneUsecase,
+        MemberFindAllUsecase memberFindAllUsecase
     ) {
         this.memberUsecase = memberUsecase;
         this.memberJoinUsecase = memberJoinUsecase;
         this.memberFindOneUsecase = memberFindOneUsecase;
+        this.memberFindAllUsecase = memberFindAllUsecase;
     }
 
     public MemberCreateResponse createMember(MemberCreateRequest createRequest) {
@@ -43,8 +49,9 @@ public class MemberController {
         return MemberResponseMapper.toMemberFindOneResponse(memberFindOneResult);
     }
 
-    public List<Member> getAllMembers() {
-        return memberUsecase.findAllMembers();
+    public MemberListResponse getAllMembers() {
+        MemberListResult memberListResult = memberFindAllUsecase.findAllMembers();
+        return MemberResponseMapper.toMemberListResponse(memberListResult);
     }
 
     public void deleteById(Long id) {
