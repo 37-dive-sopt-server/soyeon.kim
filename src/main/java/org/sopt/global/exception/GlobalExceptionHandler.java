@@ -9,6 +9,11 @@ public class GlobalExceptionHandler {
     public static ApiResponse<Void, ErrorMeta> handle(BusinessException e) {
         ErrorCode errorCode = e.getErrorCode();
 
+        System.err.println("===== HANDLED BUSINESS EXCEPTION =====");
+        System.err.printf("[traceId=%s]%n", TraceIdManager.getTraceId());
+        System.err.printf("[errorCode=%s] %s%n", errorCode.getCode(), e.getMessage());
+        System.err.println("======================================");
+
         ErrorMeta meta = new ErrorMeta(
             TraceIdManager.getTraceId(),
             "console-app", // TODO 추후 스프링 부트 도입 시 요청 경로로 변경
@@ -21,7 +26,7 @@ public class GlobalExceptionHandler {
     public static ApiResponse<Void, ErrorMeta> handle(Exception e) {
         System.err.println("===== UNHANDLED EXCEPTION =====");
         System.err.printf("[traceId=%s]%n", TraceIdManager.getTraceId());
-        System.err.println(e.getMessage());
+        System.err.println(e.getClass().getName() + ": " + e.getMessage());
         System.err.println("===============================");
 
         ErrorCode internalServerError = ErrorCode.INTERNAL_SERVER_ERROR;
@@ -30,6 +35,7 @@ public class GlobalExceptionHandler {
             "console-app",
             System.currentTimeMillis()
         );
+
         return ApiResponse.onFailure(internalServerError, meta);
     }
 }
