@@ -1,14 +1,20 @@
 package org.sopt.cli;
 
 import org.sopt.member.api.MemberController;
-import org.sopt.member.application.port.in.*;
-import org.sopt.member.application.service.*;
+import org.sopt.member.application.port.in.MemberDeleteUseCase;
+import org.sopt.member.application.port.in.MemberFindAllUseCase;
+import org.sopt.member.application.port.in.MemberFindOneUseCase;
+import org.sopt.member.application.port.in.MemberJoinUseCase;
+import org.sopt.member.application.service.MemberDeleteService;
+import org.sopt.member.application.service.MemberFindAllService;
+import org.sopt.member.application.service.MemberFindOneService;
+import org.sopt.member.application.service.MemberJoinService;
 import org.sopt.member.domain.port.out.MemberRepositoryPort;
-import org.sopt.member.infrastructure.MemoryMemberRepository;
+import org.sopt.member.infrastructure.FileMemberRepository;
 
 public class AppConfig {
 
-    private final MemberRepositoryPort memberRepository = new MemoryMemberRepository();
+    private final MemberRepositoryPort memberRepository = new FileMemberRepository("members.csv");
 
     public MemberController memberController() {
         return new MemberController(

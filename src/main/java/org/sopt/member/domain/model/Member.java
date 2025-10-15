@@ -44,6 +44,18 @@ public class Member {
         return new Member(null, name, birthday, email, gender, null, null);
     }
 
+    public static Member reconstitute(
+        Long id,
+        String name,
+        LocalDate birthday,
+        String email,
+        Gender gender,
+        Instant createdAt,
+        Instant updatedAt
+    ) {
+        return new Member(id, name, birthday, email, gender, createdAt, updatedAt);
+    }
+
     public void updateId(Long id) {
         this.id = id;
     }
@@ -85,5 +97,13 @@ public class Member {
 
     public Gender getGender() {
         return gender;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
     }
 }
