@@ -9,14 +9,14 @@ import org.sopt.member.api.dto.response.MemberCreateResponse;
 import org.sopt.member.api.dto.response.MemberFindOneResponse;
 import org.sopt.member.api.dto.response.MemberInfoResponse;
 import org.sopt.member.api.dto.response.MemberListResponse;
+import org.sopt.member.application.port.in.MemberDeleteUsecase;
 import org.sopt.member.application.port.in.MemberFindAllUsecase;
 import org.sopt.member.application.port.in.MemberFindOneUsecase;
 import org.sopt.member.application.port.in.MemberJoinUsecase;
-import org.sopt.member.application.port.in.MemberUsecase;
+import org.sopt.member.application.service.MemberDeleteService;
 import org.sopt.member.application.service.MemberFindAllService;
 import org.sopt.member.application.service.MemberFindOneService;
 import org.sopt.member.application.service.MemberJoinService;
-import org.sopt.member.application.service.MemberService;
 import org.sopt.member.domain.port.out.MemberRepositoryPort;
 import org.sopt.member.infrastructure.MemoryMemberRepository;
 
@@ -156,11 +156,15 @@ public class Main {
 
     private static MemberController getMemberController() {
         MemberRepositoryPort memberRepository = new MemoryMemberRepository();
-        MemberUsecase memberUsecase = new MemberService();
         MemberJoinUsecase memberJoinUsecase = new MemberJoinService(memberRepository);
         MemberFindOneUsecase memberFindOneUsecase = new MemberFindOneService(memberRepository);
         MemberFindAllUsecase memberFindAllUsecase = new MemberFindAllService(memberRepository);
-        return new MemberController(memberUsecase, memberJoinUsecase,
-            memberFindOneUsecase, memberFindAllUsecase);
+        MemberDeleteUsecase memberDeleteUsecase = new MemberDeleteService(memberRepository);
+        return new MemberController(
+            memberJoinUsecase,
+            memberFindOneUsecase,
+            memberFindAllUsecase,
+            memberDeleteUsecase
+        );
     }
 }

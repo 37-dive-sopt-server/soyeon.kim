@@ -1,6 +1,5 @@
 package org.sopt.member.api;
 
-import java.util.List;
 import org.sopt.member.api.dto.request.MemberCreateRequest;
 import org.sopt.member.api.dto.response.MemberCreateResponse;
 import org.sopt.member.api.dto.response.MemberFindOneResponse;
@@ -10,32 +9,29 @@ import org.sopt.member.api.mapper.MemberResponseMapper;
 import org.sopt.member.application.dto.result.MemberFindOneResult;
 import org.sopt.member.application.dto.result.MemberJoinResult;
 import org.sopt.member.application.dto.result.MemberListResult;
+import org.sopt.member.application.port.in.MemberDeleteUsecase;
 import org.sopt.member.application.port.in.MemberFindAllUsecase;
 import org.sopt.member.application.port.in.MemberFindOneUsecase;
 import org.sopt.member.application.port.in.MemberJoinUsecase;
-import org.sopt.member.domain.model.Member;
-import org.sopt.member.application.port.in.MemberUsecase;
 import org.sopt.member.application.dto.command.MemberJoinCommand;
 
 public class MemberController {
 
-    // TODO 유스케이스 별로 서비스 분리
-    // TODO port, adapter 분리
-    private final MemberUsecase memberUsecase;
     private final MemberJoinUsecase memberJoinUsecase;
     private final MemberFindOneUsecase memberFindOneUsecase;
     private final MemberFindAllUsecase memberFindAllUsecase;
+    private final MemberDeleteUsecase memberDeleteUsecase;
 
     public MemberController(
-        MemberUsecase memberUsecase,
         MemberJoinUsecase memberJoinUsecase,
         MemberFindOneUsecase memberFindOneUsecase,
-        MemberFindAllUsecase memberFindAllUsecase
+        MemberFindAllUsecase memberFindAllUsecase,
+        MemberDeleteUsecase memberDeleteUsecase
     ) {
-        this.memberUsecase = memberUsecase;
         this.memberJoinUsecase = memberJoinUsecase;
         this.memberFindOneUsecase = memberFindOneUsecase;
         this.memberFindAllUsecase = memberFindAllUsecase;
+        this.memberDeleteUsecase = memberDeleteUsecase;
     }
 
     public MemberCreateResponse createMember(MemberCreateRequest createRequest) {
@@ -55,6 +51,6 @@ public class MemberController {
     }
 
     public void deleteById(Long id) {
-        memberUsecase.deleteMember(id);
+        memberDeleteUsecase.deleteMember(id);
     }
 }
