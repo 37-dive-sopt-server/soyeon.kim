@@ -2,11 +2,11 @@ package org.sopt.member.application.service;
 
 import java.util.Optional;
 import org.sopt.member.application.dto.result.MemberFindOneResult;
-import org.sopt.member.application.port.in.MemberFindOneUsecase;
+import org.sopt.member.application.port.in.MemberFindOneUseCase;
 import org.sopt.member.domain.model.Member;
 import org.sopt.member.domain.port.out.MemberRepositoryPort;
 
-public class MemberFindOneService implements MemberFindOneUsecase {
+public class MemberFindOneService implements MemberFindOneUseCase {
 
     private final MemberRepositoryPort memberRepository;
 

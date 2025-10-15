@@ -2,11 +2,11 @@ package org.sopt.member.application.service;
 
 import org.sopt.member.application.dto.command.MemberJoinCommand;
 import org.sopt.member.application.dto.result.MemberJoinResult;
-import org.sopt.member.application.port.in.MemberJoinUsecase;
+import org.sopt.member.application.port.in.MemberJoinUseCase;
 import org.sopt.member.domain.model.Member;
 import org.sopt.member.domain.port.out.MemberRepositoryPort;
 
-public class MemberJoinService implements MemberJoinUsecase {
+public class MemberJoinService implements MemberJoinUseCase {
 
     private final MemberRepositoryPort memberRepository;
 

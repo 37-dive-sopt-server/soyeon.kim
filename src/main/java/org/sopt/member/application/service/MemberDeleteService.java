@@ -1,9 +1,9 @@
 package org.sopt.member.application.service;
 
-import org.sopt.member.application.port.in.MemberDeleteUsecase;
+import org.sopt.member.application.port.in.MemberDeleteUseCase;
 import org.sopt.member.domain.port.out.MemberRepositoryPort;
 
-public class MemberDeleteService implements MemberDeleteUsecase {
+public class MemberDeleteService implements MemberDeleteUseCase {
 
     private final MemberRepositoryPort memberRepository;
 

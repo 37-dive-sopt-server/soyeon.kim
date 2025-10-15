@@ -1,6 +1,6 @@
 package org.sopt.member.application.port.in;
 
-public interface MemberDeleteUsecase {
+public interface MemberDeleteUseCase {
 
     void deleteMember(Long memberId);
 }

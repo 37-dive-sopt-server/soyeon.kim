@@ -9,10 +9,10 @@ import org.sopt.member.api.dto.response.MemberCreateResponse;
 import org.sopt.member.api.dto.response.MemberFindOneResponse;
 import org.sopt.member.api.dto.response.MemberInfoResponse;
 import org.sopt.member.api.dto.response.MemberListResponse;
-import org.sopt.member.application.port.in.MemberDeleteUsecase;
-import org.sopt.member.application.port.in.MemberFindAllUsecase;
-import org.sopt.member.application.port.in.MemberFindOneUsecase;
-import org.sopt.member.application.port.in.MemberJoinUsecase;
+import org.sopt.member.application.port.in.MemberDeleteUseCase;
+import org.sopt.member.application.port.in.MemberFindAllUseCase;
+import org.sopt.member.application.port.in.MemberFindOneUseCase;
+import org.sopt.member.application.port.in.MemberJoinUseCase;
 import org.sopt.member.application.service.MemberDeleteService;
 import org.sopt.member.application.service.MemberFindAllService;
 import org.sopt.member.application.service.MemberFindOneService;
@@ -114,7 +114,7 @@ public class Main {
                     }
                     break;
                 case "3":
-                    MemberListResponse allMembers = memberController.getAllMembers();
+                    MemberListResponse allMembers = memberController.findAllMembers();
                     if (allMembers.members().isEmpty()) {
                         System.out.println("ℹ️ 등록된 회원이 없습니다.");
                     } else {
@@ -156,10 +156,10 @@ public class Main {
 
     private static MemberController getMemberController() {
         MemberRepositoryPort memberRepository = new MemoryMemberRepository();
-        MemberJoinUsecase memberJoinUsecase = new MemberJoinService(memberRepository);
-        MemberFindOneUsecase memberFindOneUsecase = new MemberFindOneService(memberRepository);
-        MemberFindAllUsecase memberFindAllUsecase = new MemberFindAllService(memberRepository);
-        MemberDeleteUsecase memberDeleteUsecase = new MemberDeleteService(memberRepository);
+        MemberJoinUseCase memberJoinUsecase = new MemberJoinService(memberRepository);
+        MemberFindOneUseCase memberFindOneUsecase = new MemberFindOneService(memberRepository);
+        MemberFindAllUseCase memberFindAllUsecase = new MemberFindAllService(memberRepository);
+        MemberDeleteUseCase memberDeleteUsecase = new MemberDeleteService(memberRepository);
         return new MemberController(
             memberJoinUsecase,
             memberFindOneUsecase,

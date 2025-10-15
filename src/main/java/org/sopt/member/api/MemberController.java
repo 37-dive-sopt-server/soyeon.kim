@@ -9,48 +9,48 @@ import org.sopt.member.api.mapper.MemberResponseMapper;
 import org.sopt.member.application.dto.result.MemberFindOneResult;
 import org.sopt.member.application.dto.result.MemberJoinResult;
 import org.sopt.member.application.dto.result.MemberListResult;
-import org.sopt.member.application.port.in.MemberDeleteUsecase;
-import org.sopt.member.application.port.in.MemberFindAllUsecase;
-import org.sopt.member.application.port.in.MemberFindOneUsecase;
-import org.sopt.member.application.port.in.MemberJoinUsecase;
+import org.sopt.member.application.port.in.MemberDeleteUseCase;
+import org.sopt.member.application.port.in.MemberFindAllUseCase;
+import org.sopt.member.application.port.in.MemberFindOneUseCase;
+import org.sopt.member.application.port.in.MemberJoinUseCase;
 import org.sopt.member.application.dto.command.MemberJoinCommand;
 
 public class MemberController {
 
-    private final MemberJoinUsecase memberJoinUsecase;
-    private final MemberFindOneUsecase memberFindOneUsecase;
-    private final MemberFindAllUsecase memberFindAllUsecase;
-    private final MemberDeleteUsecase memberDeleteUsecase;
+    private final MemberJoinUseCase memberJoinUseCase;
+    private final MemberFindOneUseCase memberFindOneUseCase;
+    private final MemberFindAllUseCase memberFindAllUseCase;
+    private final MemberDeleteUseCase memberDeleteUseCase;
 
     public MemberController(
-        MemberJoinUsecase memberJoinUsecase,
-        MemberFindOneUsecase memberFindOneUsecase,
-        MemberFindAllUsecase memberFindAllUsecase,
-        MemberDeleteUsecase memberDeleteUsecase
+        MemberJoinUseCase memberJoinUseCase,
+        MemberFindOneUseCase memberFindOneUseCase,
+        MemberFindAllUseCase memberFindAllUseCase,
+        MemberDeleteUseCase memberDeleteUseCase
     ) {
-        this.memberJoinUsecase = memberJoinUsecase;
-        this.memberFindOneUsecase = memberFindOneUsecase;
-        this.memberFindAllUsecase = memberFindAllUsecase;
-        this.memberDeleteUsecase = memberDeleteUsecase;
+        this.memberJoinUseCase = memberJoinUseCase;
+        this.memberFindOneUseCase = memberFindOneUseCase;
+        this.memberFindAllUseCase = memberFindAllUseCase;
+        this.memberDeleteUseCase = memberDeleteUseCase;
     }
 
     public MemberCreateResponse createMember(MemberCreateRequest createRequest) {
         MemberJoinCommand memberJoinCommand = MemberRequestMapper.toJoinCommand(createRequest);
-        MemberJoinResult memberJoinResult = memberJoinUsecase.join(memberJoinCommand);
+        MemberJoinResult memberJoinResult = memberJoinUseCase.join(memberJoinCommand);
         return MemberResponseMapper.toMemberCreateResponse(memberJoinResult);
     }
 
     public MemberFindOneResponse findMemberById(Long id) {
-        MemberFindOneResult memberFindOneResult = memberFindOneUsecase.findOne(id);
+        MemberFindOneResult memberFindOneResult = memberFindOneUseCase.findOne(id);
         return MemberResponseMapper.toMemberFindOneResponse(memberFindOneResult);
     }
 
-    public MemberListResponse getAllMembers() {
-        MemberListResult memberListResult = memberFindAllUsecase.findAllMembers();
+    public MemberListResponse findAllMembers() {
+        MemberListResult memberListResult = memberFindAllUseCase.findAllMembers();
         return MemberResponseMapper.toMemberListResponse(memberListResult);
     }
 
     public void deleteById(Long id) {
-        memberDeleteUsecase.deleteMember(id);
+        memberDeleteUseCase.deleteMember(id);
     }
 }
