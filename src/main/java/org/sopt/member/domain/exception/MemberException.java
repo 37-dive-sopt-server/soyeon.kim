@@ -8,4 +8,8 @@ public class MemberException extends BusinessException {
     public MemberException(ErrorCode errorCode) {
         super(errorCode);
     }
+
+    public MemberException(ErrorCode errorCode, String detail) {
+        super(errorCode, detail);
+    }
 }
