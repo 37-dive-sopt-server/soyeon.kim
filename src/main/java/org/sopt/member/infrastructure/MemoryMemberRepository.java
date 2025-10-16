@@ -10,6 +10,7 @@ import org.sopt.member.domain.port.out.MemberRepositoryPort;
 public class MemoryMemberRepository implements MemberRepositoryPort {
 
     private final Map<Long, Member> store = new ConcurrentHashMap<>();
+    private final Set<String> emails = new LinkedHashSet<>();
     private final AtomicLong sequence = new AtomicLong(1);
 
     @Override
@@ -21,6 +22,7 @@ public class MemoryMemberRepository implements MemberRepositoryPort {
         }
         member.updateUpdatedAt(now);
         store.put(member.getId(), member);
+        emails.add(member.getEmail());
         return member;
     }
 
@@ -36,8 +38,7 @@ public class MemoryMemberRepository implements MemberRepositoryPort {
 
     @Override
     public boolean existsByEmail(String email) {
-        return store.values().stream()
-            .anyMatch(member -> member.isExistEmail(email));
+        return emails.contains(email);
     }
 
     @Override
