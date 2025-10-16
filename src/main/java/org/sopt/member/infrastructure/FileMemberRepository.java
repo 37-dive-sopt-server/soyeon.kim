@@ -4,10 +4,12 @@ import java.io.*;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import org.sopt.member.domain.model.Gender;
@@ -17,6 +19,7 @@ import org.sopt.member.domain.port.out.MemberRepositoryPort;
 public class FileMemberRepository implements MemberRepositoryPort {
 
     private final Map<Long, Member> store = new ConcurrentHashMap<>();
+    private final Set<String> emails = new LinkedHashSet<>();
     private final AtomicLong sequence = new AtomicLong(1);
     private final String filePath;
 
@@ -32,8 +35,8 @@ public class FileMemberRepository implements MemberRepositoryPort {
             member.updateCreatedAt(Instant.now());
         }
         member.updateUpdatedAt(Instant.now());
-
         store.put(member.getId(), member);
+        emails.add(member.getEmail());
         logToFile("SAVE," + memberToCsv(member));
         return member;
     }
@@ -58,8 +61,7 @@ public class FileMemberRepository implements MemberRepositoryPort {
 
     @Override
     public boolean existsByEmail(String email) {
-        return store.values().stream()
-            .anyMatch(member -> member.getEmail().equals(email));
+        return emails.contains(email);
     }
 
     private void loadFromFile() {

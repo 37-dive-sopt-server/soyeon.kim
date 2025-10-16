@@ -68,10 +68,6 @@ public class Member {
         this.updatedAt = now;
     }
 
-    public boolean isExistEmail(String email) {
-        return this.email.equals(email);
-    }
-
     private static void validateIsAdult(LocalDate now, LocalDate birthday) {
         int age = now.getYear() - birthday.getYear() + 1;
         if (age < 20) {
