@@ -8,7 +8,9 @@ import org.sopt.member.application.port.in.MemberFindOneUseCase;
 import org.sopt.member.domain.exception.MemberException;
 import org.sopt.member.domain.model.Member;
 import org.sopt.member.domain.port.out.MemberRepositoryPort;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MemberFindOneService implements MemberFindOneUseCase {
 
     private final MemberRepositoryPort memberRepository;
