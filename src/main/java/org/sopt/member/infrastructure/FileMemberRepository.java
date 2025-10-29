@@ -15,16 +15,21 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.sopt.member.domain.model.Gender;
 import org.sopt.member.domain.model.Member;
 import org.sopt.member.domain.port.out.MemberRepositoryPort;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 
+@Qualifier("fileMemberRepository")
+@Repository
 public class FileMemberRepository implements MemberRepositoryPort {
+
+
+    private static final String filePath = "members.csv";
 
     private final Map<Long, Member> store = new ConcurrentHashMap<>();
     private final Set<String> emails = new LinkedHashSet<>();
     private final AtomicLong sequence = new AtomicLong(1);
-    private final String filePath;
 
-    public FileMemberRepository(String filePath) {
-        this.filePath = filePath;
+    public FileMemberRepository() {
         loadFromFile();
     }
 

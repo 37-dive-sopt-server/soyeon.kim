@@ -9,6 +9,7 @@ import org.sopt.member.application.port.in.MemberJoinUseCase;
 import org.sopt.member.domain.exception.MemberException;
 import org.sopt.member.domain.model.Member;
 import org.sopt.member.domain.port.out.MemberRepositoryPort;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,7 +17,9 @@ public class MemberJoinService implements MemberJoinUseCase {
 
     private final MemberRepositoryPort memberRepository;
 
-    public MemberJoinService(MemberRepositoryPort memberRepositoryPort) {
+    public MemberJoinService(
+        @Qualifier("memoryMemberRepository") MemberRepositoryPort memberRepositoryPort
+    ) {
         this.memberRepository = memberRepositoryPort;
     }
 

@@ -6,7 +6,11 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import org.sopt.member.domain.port.out.MemberRepositoryPort;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
 
+@Qualifier("memoryMemberRepository")
+@Repository
 public class MemoryMemberRepository implements MemberRepositoryPort {
 
     private final Map<Long, Member> store = new ConcurrentHashMap<>();
