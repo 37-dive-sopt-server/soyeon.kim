@@ -1,8 +1,9 @@
 package org.sopt.global.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.sopt.global.exception.ErrorCode;
 
-// TODO 스프링 부트 도입 시 null인 필드 JSON에서 생략하는 어노테이션 추가하기
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public record ApiResponse<T, M>(
     boolean success,
     int status,
@@ -20,7 +21,7 @@ public record ApiResponse<T, M>(
         return new ApiResponse<>(true, 200, message, data, null, null);
     }
 
-    public static <T>ApiResponse<T, Void> created(T data, String message) {
+    public static <T> ApiResponse<T, Void> created(T data, String message) {
         return new ApiResponse<>(true, 201, message, data, null, null);
     }
 
@@ -29,6 +30,21 @@ public record ApiResponse<T, M>(
             false,
             errorCode.getStatus(),
             errorCode.getMessage(),
+            null,
+            errorCode.getCode(),
+            errorMeta
+        );
+    }
+
+    public static ApiResponse<Void, ErrorMeta> onFailure(
+        ErrorCode errorCode,
+        String message,
+        ErrorMeta errorMeta
+    ) {
+        return new ApiResponse<>(
+            false,
+            errorCode.getStatus(),
+            message,
             null,
             errorCode.getCode(),
             errorMeta

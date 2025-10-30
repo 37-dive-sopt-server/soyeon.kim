@@ -1,41 +1,51 @@
 package org.sopt.global.exception;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.sopt.global.response.ApiResponse;
 import org.sopt.global.response.ErrorMeta;
-import org.sopt.global.trace.TraceIdManager;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    public static ApiResponse<Void, ErrorMeta> handle(BusinessException e) {
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ApiResponse<Void, ErrorMeta>> handle(
+        BusinessException e,
+        HttpServletRequest request
+    ) {
         ErrorCode errorCode = e.getErrorCode();
 
         System.err.println("===== HANDLED BUSINESS EXCEPTION =====");
-        System.err.printf("[traceId=%s]%n", TraceIdManager.getTraceId());
         System.err.printf("[errorCode=%s] %s%n", errorCode.getCode(), e.getMessage());
         System.err.println("======================================");
 
         ErrorMeta meta = new ErrorMeta(
-            TraceIdManager.getTraceId(),
-            "console-app", // TODO 추후 스프링 부트 도입 시 요청 경로로 변경
+            request.getRequestURI(),
             System.currentTimeMillis()
         );
 
-        return ApiResponse.onFailure(errorCode, meta);
+        return ResponseEntity.status(errorCode.getStatus())
+            .body(ApiResponse.onFailure(errorCode, meta));
     }
 
-    public static ApiResponse<Void, ErrorMeta> handle(Exception e) {
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiResponse<Void, ErrorMeta>> handle(
+        Exception e,
+        HttpServletRequest request
+    ) {
         System.err.println("===== UNHANDLED EXCEPTION =====");
-        System.err.printf("[traceId=%s]%n", TraceIdManager.getTraceId());
         System.err.println(e.getClass().getName() + ": " + e.getMessage());
         System.err.println("===============================");
 
         ErrorCode internalServerError = ErrorCode.INTERNAL_SERVER_ERROR;
         ErrorMeta meta = new ErrorMeta(
-            TraceIdManager.getTraceId(),
-            "console-app",
+            request.getRequestURI(),
             System.currentTimeMillis()
         );
 
-        return ApiResponse.onFailure(internalServerError, meta);
+        return ResponseEntity.status(500)
+            .body(ApiResponse.onFailure(internalServerError, e.getMessage(), meta));
     }
 }
