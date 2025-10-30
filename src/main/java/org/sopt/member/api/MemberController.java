@@ -1,12 +1,18 @@
 package org.sopt.member.api;
 
-import org.sopt.global.response.ApiResponse;
+import static org.sopt.global.response.SuccessCode.MEMBER_CREATED_SUCCESS;
+import static org.sopt.global.response.SuccessCode.MEMBER_DELETED_SUCCESS;
+import static org.sopt.global.response.SuccessCode.MEMBER_LIST_RETRIEVED_SUCCESS;
+import static org.sopt.global.response.SuccessCode.MEMBER_RETRIEVED_SUCCESS;
+
+import org.sopt.global.response.ApiResponseBody;
 import org.sopt.member.api.dto.request.MemberCreateRequest;
 import org.sopt.member.api.dto.response.MemberCreateResponse;
 import org.sopt.member.api.dto.response.MemberFindOneResponse;
 import org.sopt.member.api.dto.response.MemberListResponse;
 import org.sopt.member.api.mapper.MemberRequestMapper;
 import org.sopt.member.api.mapper.MemberResponseMapper;
+import org.sopt.member.application.dto.command.MemberJoinCommand;
 import org.sopt.member.application.dto.result.MemberFindOneResult;
 import org.sopt.member.application.dto.result.MemberJoinResult;
 import org.sopt.member.application.dto.result.MemberListResult;
@@ -14,7 +20,7 @@ import org.sopt.member.application.port.in.MemberDeleteUseCase;
 import org.sopt.member.application.port.in.MemberFindAllUseCase;
 import org.sopt.member.application.port.in.MemberFindOneUseCase;
 import org.sopt.member.application.port.in.MemberJoinUseCase;
-import org.sopt.member.application.dto.command.MemberJoinCommand;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,33 +51,39 @@ public class MemberController {
     }
 
     @PostMapping
-    public ApiResponse<MemberCreateResponse, Void> createMember(
+    public ResponseEntity<ApiResponseBody<MemberCreateResponse, Void>>createMember(
         @RequestBody MemberCreateRequest createRequest
     ) {
         MemberJoinCommand memberJoinCommand = MemberRequestMapper.toJoinCommand(createRequest);
         MemberJoinResult memberJoinResult = memberJoinUseCase.join(memberJoinCommand);
         MemberCreateResponse responseData = MemberResponseMapper.toMemberCreateResponse(memberJoinResult);
 
-        return ApiResponse.created(responseData, "회원가입이 성공적으로 완료되었습니다.");
+        return ResponseEntity.status(201)
+            .body(ApiResponseBody.created(MEMBER_CREATED_SUCCESS, responseData));
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<MemberFindOneResponse, Void> findMemberById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponseBody<MemberFindOneResponse, Void>> findMemberById(
+        @PathVariable Long id
+    ) {
         MemberFindOneResult memberFindOneResult = memberFindOneUseCase.findOne(id);
         MemberFindOneResponse responseData = MemberResponseMapper.toMemberFindOneResponse(memberFindOneResult);
-        return ApiResponse.ok(responseData, "회원 조회가 성공적으로 완료되었습니다.");
+        return ResponseEntity.status(200)
+            .body(ApiResponseBody.ok(MEMBER_RETRIEVED_SUCCESS, responseData));
     }
 
     @GetMapping
-    public ApiResponse<MemberListResponse, Void> findAllMembers() {
+    public ResponseEntity<ApiResponseBody<MemberListResponse, Void>> findAllMembers() {
         MemberListResult memberListResult = memberFindAllUseCase.findAllMembers();
         MemberListResponse responseData = MemberResponseMapper.toMemberListResponse(memberListResult);
-        return ApiResponse.ok(responseData, "회원 전체 조회가 성공적으로 완료되었습니다.");
+        return ResponseEntity.status(200)
+            .body(ApiResponseBody.ok(MEMBER_LIST_RETRIEVED_SUCCESS, responseData));
     }
 
     @DeleteMapping("/{id}")
-    public ApiResponse<Void, Void> deleteById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponseBody<Void, Void>> deleteById(@PathVariable Long id) {
         memberDeleteUseCase.deleteMember(id);
-        return ApiResponse.ok("회원 삭제가 성공적으로 완료되었습니다.");
+        return ResponseEntity.status(200)
+            .body(ApiResponseBody.ok(MEMBER_DELETED_SUCCESS));
     }
 }
