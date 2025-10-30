@@ -1,7 +1,7 @@
 package org.sopt.global.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.sopt.global.response.ApiResponse;
+import org.sopt.global.response.ApiResponseBody;
 import org.sopt.global.response.ErrorMeta;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ApiResponse<Void, ErrorMeta>> handle(
+    public ResponseEntity<ApiResponseBody<Void, ErrorMeta>> handle(
         BusinessException e,
         HttpServletRequest request
     ) {
@@ -27,11 +27,11 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.status(errorCode.getStatus())
-            .body(ApiResponse.onFailure(errorCode, meta));
+            .body(ApiResponseBody.onFailure(errorCode, meta));
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<Void, ErrorMeta>> handle(
+    public ResponseEntity<ApiResponseBody<Void, ErrorMeta>> handle(
         Exception e,
         HttpServletRequest request
     ) {
@@ -46,6 +46,6 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.status(500)
-            .body(ApiResponse.onFailure(internalServerError, e.getMessage(), meta));
+            .body(ApiResponseBody.onFailure(internalServerError, e.getMessage(), meta));
     }
 }
