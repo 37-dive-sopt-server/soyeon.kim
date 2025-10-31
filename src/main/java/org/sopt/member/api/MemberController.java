@@ -51,12 +51,13 @@ public class MemberController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponseBody<MemberCreateResponse, Void>>createMember(
+    public ResponseEntity<ApiResponseBody<MemberCreateResponse, Void>> createMember(
         @RequestBody MemberCreateRequest createRequest
     ) {
         MemberJoinCommand memberJoinCommand = MemberRequestMapper.toJoinCommand(createRequest);
         MemberJoinResult memberJoinResult = memberJoinUseCase.join(memberJoinCommand);
-        MemberCreateResponse responseData = MemberResponseMapper.toMemberCreateResponse(memberJoinResult);
+        MemberCreateResponse responseData = MemberResponseMapper
+            .toMemberCreateResponse(memberJoinResult);
 
         return ResponseEntity.status(201)
             .body(ApiResponseBody.created(MEMBER_CREATED_SUCCESS, responseData));
@@ -67,7 +68,9 @@ public class MemberController {
         @PathVariable Long id
     ) {
         MemberFindOneResult memberFindOneResult = memberFindOneUseCase.findOne(id);
-        MemberFindOneResponse responseData = MemberResponseMapper.toMemberFindOneResponse(memberFindOneResult);
+        MemberFindOneResponse responseData = MemberResponseMapper
+            .toMemberFindOneResponse(memberFindOneResult);
+
         return ResponseEntity.status(200)
             .body(ApiResponseBody.ok(MEMBER_RETRIEVED_SUCCESS, responseData));
     }
@@ -75,7 +78,9 @@ public class MemberController {
     @GetMapping
     public ResponseEntity<ApiResponseBody<MemberListResponse, Void>> findAllMembers() {
         MemberListResult memberListResult = memberFindAllUseCase.findAllMembers();
-        MemberListResponse responseData = MemberResponseMapper.toMemberListResponse(memberListResult);
+        MemberListResponse responseData = MemberResponseMapper
+            .toMemberListResponse(memberListResult);
+
         return ResponseEntity.status(200)
             .body(ApiResponseBody.ok(MEMBER_LIST_RETRIEVED_SUCCESS, responseData));
     }
@@ -83,6 +88,7 @@ public class MemberController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponseBody<Void, Void>> deleteById(@PathVariable Long id) {
         memberDeleteUseCase.deleteMember(id);
+
         return ResponseEntity.status(200)
             .body(ApiResponseBody.ok(MEMBER_DELETED_SUCCESS));
     }
