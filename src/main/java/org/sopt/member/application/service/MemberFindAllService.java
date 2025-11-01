@@ -5,12 +5,17 @@ import org.sopt.member.application.dto.result.MemberListResult;
 import org.sopt.member.application.port.in.MemberFindAllUseCase;
 import org.sopt.member.domain.model.Member;
 import org.sopt.member.domain.port.out.MemberRepositoryPort;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MemberFindAllService implements MemberFindAllUseCase {
 
     private final MemberRepositoryPort memberRepository;
 
-    public MemberFindAllService(MemberRepositoryPort memberRepositoryPort) {
+    public MemberFindAllService(
+        @Qualifier("memoryMemberRepository") MemberRepositoryPort memberRepositoryPort
+    ) {
         this.memberRepository = memberRepositoryPort;
     }
 
