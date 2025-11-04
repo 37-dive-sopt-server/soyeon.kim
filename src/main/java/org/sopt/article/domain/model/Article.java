@@ -7,8 +7,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.time.Instant;
+import lombok.Getter;
 import org.sopt.member.domain.model.Member;
 
+@Getter
 @Entity
 public class Article {
 
@@ -19,6 +22,16 @@ public class Article {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberId")
     private Member member;
+
+    private Tag tag;
+
+    private String title;
+
+    private String content;
+
+    private Instant createdAt;
+
+    private Instant updatedAt;
 
 
 }
