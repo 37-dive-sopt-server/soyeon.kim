@@ -15,7 +15,7 @@ public class MemberDeleteService implements MemberDeleteUseCase {
     private final MemberRepositoryPort memberRepository;
 
     public MemberDeleteService(
-        @Qualifier("memoryMemberRepository") MemberRepositoryPort memberRepositoryPort
+        MemberRepositoryPort memberRepositoryPort
     ) {
         this.memberRepository = memberRepositoryPort;
     }

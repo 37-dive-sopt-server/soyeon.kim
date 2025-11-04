@@ -18,7 +18,7 @@ public class MemberJoinService implements MemberJoinUseCase {
     private final MemberRepositoryPort memberRepository;
 
     public MemberJoinService(
-        @Qualifier("memoryMemberRepository") MemberRepositoryPort memberRepositoryPort
+        MemberRepositoryPort memberRepositoryPort
     ) {
         this.memberRepository = memberRepositoryPort;
     }

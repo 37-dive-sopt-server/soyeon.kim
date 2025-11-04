@@ -17,7 +17,7 @@ public class MemberFindOneService implements MemberFindOneUseCase {
     private final MemberRepositoryPort memberRepository;
 
     public MemberFindOneService(
-        @Qualifier("memoryMemberRepository") MemberRepositoryPort memberRepositoryPort
+        MemberRepositoryPort memberRepositoryPort
     ) {
         this.memberRepository = memberRepositoryPort;
     }

@@ -2,19 +2,36 @@ package org.sopt.member.domain.model;
 
 import static org.sopt.global.exception.ErrorCode.AGE_MUST_UPPER_THAN_20;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import org.sopt.article.domain.model.Article;
 import org.sopt.member.domain.exception.MemberException;
 
+@Entity
 public class Member {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private LocalDate birthday;
     private String email;
     private Gender gender;
+
+    @OneToMany
+    private List<Article> articleList = new ArrayList<>();
+
     private Instant createdAt;
     private Instant updatedAt;
+
+    public Member() {}
 
     private Member(
         Long id,
@@ -54,18 +71,6 @@ public class Member {
         Instant updatedAt
     ) {
         return new Member(id, name, birthday, email, gender, createdAt, updatedAt);
-    }
-
-    public void updateId(Long id) {
-        this.id = id;
-    }
-
-    public void updateCreatedAt(Instant now) {
-        this.createdAt = now;
-    }
-
-    public void updateUpdatedAt(Instant now) {
-        this.updatedAt = now;
     }
 
     private static void validateIsAdult(LocalDate now, LocalDate birthday) {
