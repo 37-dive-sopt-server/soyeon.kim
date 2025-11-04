@@ -11,24 +11,31 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Getter;
 import org.sopt.article.domain.model.Article;
 import org.sopt.member.domain.exception.MemberException;
 
+@Getter
 @Entity
 public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
     private LocalDate birthday;
+
     private String email;
+
     private Gender gender;
 
     @OneToMany
     private List<Article> articleList = new ArrayList<>();
 
     private Instant createdAt;
+
     private Instant updatedAt;
 
     public Member() {}
@@ -61,50 +68,10 @@ public class Member {
         return new Member(null, name, birthday, email, gender, null, null);
     }
 
-    public static Member reconstitute(
-        Long id,
-        String name,
-        LocalDate birthday,
-        String email,
-        Gender gender,
-        Instant createdAt,
-        Instant updatedAt
-    ) {
-        return new Member(id, name, birthday, email, gender, createdAt, updatedAt);
-    }
-
     private static void validateIsAdult(LocalDate now, LocalDate birthday) {
         int age = now.getYear() - birthday.getYear() + 1;
         if (age < 20) {
             throw new MemberException(AGE_MUST_UPPER_THAN_20);
         }
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
     }
 }
