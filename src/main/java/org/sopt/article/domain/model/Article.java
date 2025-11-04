@@ -7,13 +7,20 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import java.time.Instant;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.sopt.global.model.BaseEntity;
 import org.sopt.member.domain.model.Member;
 
 @Getter
+@Builder(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Article {
+public class Article extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,10 +35,5 @@ public class Article {
     private String title;
 
     private String content;
-
-    private Instant createdAt;
-
-    private Instant updatedAt;
-
 
 }

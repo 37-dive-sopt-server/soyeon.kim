@@ -7,15 +7,21 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.sopt.article.domain.model.Article;
 import org.sopt.member.domain.exception.MemberException;
 
 @Getter
+@Builder(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Member {
 
@@ -34,30 +40,6 @@ public class Member {
     @OneToMany
     private List<Article> articleList = new ArrayList<>();
 
-    private Instant createdAt;
-
-    private Instant updatedAt;
-
-    public Member() {}
-
-    private Member(
-        Long id,
-        String name,
-        LocalDate birthday,
-        String email,
-        Gender gender,
-        Instant createdAt,
-        Instant updatedAt
-    ) {
-        this.id = id;
-        this.name = name;
-        this.birthday = birthday;
-        this.email = email;
-        this.gender = gender;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
     public static Member of(
         String name,
         LocalDate birthday,
@@ -65,7 +47,13 @@ public class Member {
         Gender gender
     ) {
         validateIsAdult(LocalDate.now(), birthday);
-        return new Member(null, name, birthday, email, gender, null, null);
+
+        return Member.builder()
+            .name(name)
+            .birthday(birthday)
+            .email(email)
+            .gender(gender)
+            .build();
     }
 
     private static void validateIsAdult(LocalDate now, LocalDate birthday) {

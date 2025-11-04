@@ -1,4 +1,4 @@
-package org.sopt.global.config;
+package org.sopt.global.config.jackson;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
