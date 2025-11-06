@@ -16,6 +16,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.sopt.article.domain.model.Article;
+import org.sopt.global.model.BaseEntity;
 import org.sopt.member.domain.exception.MemberException;
 
 @Getter
@@ -23,7 +24,7 @@ import org.sopt.member.domain.exception.MemberException;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Member {
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
