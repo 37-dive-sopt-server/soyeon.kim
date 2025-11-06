@@ -8,7 +8,8 @@ public enum SuccessCode {
     MEMBER_DELETED_SUCCESS(200, "회원 삭제가 성공적으로 완료되었습니다."),
 
     // 201 CREATED
-    MEMBER_CREATED_SUCCESS(201, "회원가입이 성공적으로 완료되었습니다.");
+    MEMBER_CREATED_SUCCESS(201, "회원가입이 성공적으로 완료되었습니다."),
+    ARTICLE_CREATED_SUCCESS(201, "게시물이 성공적으로 생성되었습니다.");
 
 
     private final int status;

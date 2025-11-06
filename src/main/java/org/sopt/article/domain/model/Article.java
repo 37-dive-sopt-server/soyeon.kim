@@ -1,6 +1,8 @@
 package org.sopt.article.domain.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,10 +32,24 @@ public class Article extends BaseEntity {
     @JoinColumn(name = "memberId")
     private Member member;
 
+    @Enumerated(EnumType.STRING)
     private Tag tag;
 
     private String title;
 
     private String content;
 
+    public static Article create(
+        Member member,
+        Tag tag,
+        String title,
+        String content
+    ) {
+        return Article.builder()
+            .member(member)
+            .tag(tag)
+            .title(title)
+            .content(content)
+            .build();
+    }
 }
