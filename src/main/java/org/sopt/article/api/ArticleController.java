@@ -1,17 +1,21 @@
 package org.sopt.article.api;
 
 import static org.sopt.global.response.SuccessCode.ARTICLE_CREATED_SUCCESS;
+import static org.sopt.global.response.SuccessCode.ARTICLE_LIST_RETRIEVED_SUCCESS;
 import static org.sopt.global.response.SuccessCode.ARTICLE_RETRIEVED_SUCCESS;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.article.api.dto.request.ArticleCreateRequest;
 import org.sopt.article.api.dto.response.ArticleCreateResponse;
+import org.sopt.article.api.dto.response.ArticleFindAllResponse;
 import org.sopt.article.api.dto.response.ArticleFindOneResponse;
 import org.sopt.article.api.mapper.ArticleRequestMapper;
 import org.sopt.article.api.mapper.ArticleResponseMapper;
 import org.sopt.article.application.dto.command.ArticleWriteCommand;
 import org.sopt.article.application.dto.result.ArticleCreateResult;
+import org.sopt.article.application.dto.result.ArticleFindAllResult;
 import org.sopt.article.application.dto.result.ArticleFindOneResult;
+import org.sopt.article.application.port.in.ArticleFindAllUsecase;
 import org.sopt.article.application.port.in.ArticleFindOneUsecase;
 import org.sopt.article.application.port.in.ArticleWriteUsecase;
 import org.sopt.global.response.ApiResponseBody;
@@ -30,6 +34,7 @@ public class ArticleController {
 
     private final ArticleWriteUsecase articleWriteUsecase;
     private final ArticleFindOneUsecase articleFindOneUsecase;
+    private final ArticleFindAllUsecase articleFindAllUsecase;
 
     @PostMapping("/members/{memberId}/articles")
     public ResponseEntity<ApiResponseBody<ArticleCreateResponse, Void>> articleWrite(
@@ -58,5 +63,16 @@ public class ArticleController {
 
         return ResponseEntity.status(ARTICLE_RETRIEVED_SUCCESS.getStatus())
             .body(ApiResponseBody.ok(ARTICLE_RETRIEVED_SUCCESS, articleFindOneResponse));
+    }
+
+    @GetMapping("/articles")
+    public ResponseEntity<ApiResponseBody<ArticleFindAllResponse, Void>> findArticleAll() {
+        ArticleFindAllResult articleFindAllResult = articleFindAllUsecase
+            .findArticleAll();
+        ArticleFindAllResponse articleFindAllResponse = ArticleResponseMapper
+            .toArticleFindAllResponse(articleFindAllResult);
+
+        return ResponseEntity.status(ARTICLE_LIST_RETRIEVED_SUCCESS.getStatus())
+            .body(ApiResponseBody.ok(ARTICLE_LIST_RETRIEVED_SUCCESS, articleFindAllResponse));
     }
 }
