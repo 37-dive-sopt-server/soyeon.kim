@@ -1,6 +1,9 @@
 package org.sopt.global.response;
 
+import lombok.Getter;
+
 // TODO 도메인 별 분리 => 다음 주에 할게요
+@Getter
 public enum SuccessCode {
 
     // 200 OK
@@ -20,13 +23,5 @@ public enum SuccessCode {
     SuccessCode(int status, String message) {
         this.status = status;
         this.message = message;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public String getMessage() {
-        return message;
     }
 }

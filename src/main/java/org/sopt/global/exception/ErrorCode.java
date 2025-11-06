@@ -1,6 +1,9 @@
 package org.sopt.global.exception;
 
+import lombok.Getter;
+
 // TODO 도메인 별 분리 => 다음 주에 할게요
+@Getter
 public enum ErrorCode {
 
     // =================== COMMON ===================
@@ -36,17 +39,5 @@ public enum ErrorCode {
         this.status = status;
         this.code = code;
         this.message = message;
-    }
-
-    public int getStatus() {
-        return this.status;
-    }
-
-    public String getCode() {
-        return this.code;
-    }
-
-    public String getMessage() {
-        return this.message;
     }
 }
