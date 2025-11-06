@@ -5,5 +5,5 @@ public enum Tag {
     CS,
     DB,
     SPRING,
-    ETC;
+    ETC
 }
