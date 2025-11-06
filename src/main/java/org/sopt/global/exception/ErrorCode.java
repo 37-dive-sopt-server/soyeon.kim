@@ -1,5 +1,6 @@
 package org.sopt.global.exception;
 
+// TODO 도메인 별 분리 => 다음 주에 할게요
 public enum ErrorCode {
 
     // =================== COMMON ===================
@@ -22,6 +23,7 @@ public enum ErrorCode {
 
     // 404 NOT FOUND
     MEMBER_NOT_FOUND(404, "MEM_001", "존재하지 않는 회원입니다."),
+    ARTICLE_NOT_FOUND(404, "ART_001", "존재하지 않는 게시물입니다."),
 
     // 409 CONFLICT
     MEMBER_BY_EMAIL_ALREADY_EXISTS(409, "MEM_002", "해당 이메일로 가입된 회원이 이미 존재합니다.");
