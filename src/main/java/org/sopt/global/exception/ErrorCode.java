@@ -1,5 +1,9 @@
 package org.sopt.global.exception;
 
+import lombok.Getter;
+
+// TODO 도메인 별 분리 => 다음 주에 할게요
+@Getter
 public enum ErrorCode {
 
     // =================== COMMON ===================
@@ -22,9 +26,11 @@ public enum ErrorCode {
 
     // 404 NOT FOUND
     MEMBER_NOT_FOUND(404, "MEM_001", "존재하지 않는 회원입니다."),
+    ARTICLE_NOT_FOUND(404, "ART_001", "존재하지 않는 게시물입니다."),
 
     // 409 CONFLICT
-    MEMBER_BY_EMAIL_ALREADY_EXISTS(409, "MEM_002", "해당 이메일로 가입된 회원이 이미 존재합니다.");
+    MEMBER_BY_EMAIL_ALREADY_EXISTS(409, "MEM_002", "해당 이메일로 가입된 회원이 이미 존재합니다."),
+    ARTICLE_BY_NAME_ALREADY_EXISTS(409, "ART_002", "해당 제목으로 작성된 게시글이 이미 존재합니다.");
 
     private final int status;
     private final String code;
@@ -34,17 +40,5 @@ public enum ErrorCode {
         this.status = status;
         this.code = code;
         this.message = message;
-    }
-
-    public int getStatus() {
-        return this.status;
-    }
-
-    public String getCode() {
-        return this.code;
-    }
-
-    public String getMessage() {
-        return this.message;
     }
 }

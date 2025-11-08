@@ -14,7 +14,7 @@ public class MemberFindAllService implements MemberFindAllUseCase {
     private final MemberRepositoryPort memberRepository;
 
     public MemberFindAllService(
-        @Qualifier("memoryMemberRepository") MemberRepositoryPort memberRepositoryPort
+        MemberRepositoryPort memberRepositoryPort
     ) {
         this.memberRepository = memberRepositoryPort;
     }
