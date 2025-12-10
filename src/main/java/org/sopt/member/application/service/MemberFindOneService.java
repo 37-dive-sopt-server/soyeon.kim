@@ -1,6 +1,6 @@
 package org.sopt.member.application.service;
 
-import static org.sopt.global.exception.ErrorCode.MEMBER_NOT_FOUND;
+import static org.sopt.member.domain.exception.MemberErrorCode.MEMBER_NOT_FOUND;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.member.application.dto.result.MemberFindOneResult;

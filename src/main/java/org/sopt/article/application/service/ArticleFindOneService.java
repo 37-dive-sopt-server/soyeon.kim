@@ -1,6 +1,6 @@
 package org.sopt.article.application.service;
 
-import static org.sopt.global.exception.ErrorCode.ARTICLE_NOT_FOUND;
+import static org.sopt.article.domain.exception.ArticleErrorCode.ARTICLE_NOT_FOUND;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.article.application.dto.result.ArticleFindOneResult;

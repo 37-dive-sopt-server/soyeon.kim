@@ -1,8 +1,8 @@
 package org.sopt.article.api;
 
-import static org.sopt.global.response.SuccessCode.ARTICLE_CREATED_SUCCESS;
-import static org.sopt.global.response.SuccessCode.ARTICLE_LIST_RETRIEVED_SUCCESS;
-import static org.sopt.global.response.SuccessCode.ARTICLE_RETRIEVED_SUCCESS;
+import static org.sopt.article.api.code.ArticleSuccessCode.ARTICLE_CREATED_SUCCESS;
+import static org.sopt.article.api.code.ArticleSuccessCode.ARTICLE_LIST_RETRIEVED_SUCCESS;
+import static org.sopt.article.api.code.ArticleSuccessCode.ARTICLE_RETRIEVED_SUCCESS;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.article.api.dto.request.ArticleCreateRequest;
@@ -18,7 +18,7 @@ import org.sopt.article.application.dto.result.ArticleFindOneResult;
 import org.sopt.article.application.port.in.ArticleFindAllUsecase;
 import org.sopt.article.application.port.in.ArticleFindOneUsecase;
 import org.sopt.article.application.port.in.ArticleWriteUsecase;
-import org.sopt.global.response.ApiResponseBody;
+import org.sopt.global.response.dto.ApiResponseBody;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

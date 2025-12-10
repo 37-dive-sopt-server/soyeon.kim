@@ -1,6 +1,6 @@
 package org.sopt.member.domain.model;
 
-import static org.sopt.global.exception.ErrorCode.AGE_MUST_UPPER_THAN_20;
+import static org.sopt.member.domain.exception.MemberErrorCode.AGE_MUST_UPPER_THAN_20;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,7 +1,7 @@
 package org.sopt.article.application.service;
 
-import static org.sopt.global.exception.ErrorCode.ARTICLE_BY_NAME_ALREADY_EXISTS;
-import static org.sopt.global.exception.ErrorCode.MEMBER_NOT_FOUND;
+import static org.sopt.article.domain.exception.ArticleErrorCode.ARTICLE_BY_NAME_ALREADY_EXISTS;
+import static org.sopt.member.domain.exception.MemberErrorCode.MEMBER_NOT_FOUND;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.article.application.dto.command.ArticleWriteCommand;
