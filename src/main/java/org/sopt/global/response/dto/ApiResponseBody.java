@@ -1,7 +1,8 @@
-package org.sopt.global.response;
+package org.sopt.global.response.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.sopt.global.exception.ErrorCode;
+import org.sopt.global.response.code.SuccessCode;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record ApiResponseBody<T, M>(
