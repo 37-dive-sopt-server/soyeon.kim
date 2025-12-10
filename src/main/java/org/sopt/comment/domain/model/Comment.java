@@ -1,5 +1,10 @@
 package org.sopt.comment.domain.model;
 
+import static org.sopt.comment.domain.exception.CommentErrorCode.ARTICLE_REQUIRED;
+import static org.sopt.comment.domain.exception.CommentErrorCode.CONTENT_REQUIRED;
+import static org.sopt.comment.domain.exception.CommentErrorCode.CONTENT_TOO_LONG;
+import static org.sopt.comment.domain.exception.CommentErrorCode.MEMBER_REQUIRED;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -12,16 +17,17 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.sopt.article.domain.model.Article;
+import org.sopt.comment.domain.exception.CommentException;
 import org.sopt.global.model.BaseEntity;
 import org.sopt.member.domain.model.Member;
 
 @Getter
-@RequiredArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Comment extends BaseEntity {
+
+    private static final int MAX_CONTENT_LENGTH = 300;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,7 +41,7 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member author;
 
-    @Column(nullable = false, length = 300)
+    @Column(nullable = false, length = MAX_CONTENT_LENGTH)
     private String content;
 
     @Builder(access = AccessLevel.PRIVATE)
@@ -61,15 +67,32 @@ public class Comment extends BaseEntity {
     }
 
     private void validateArticle(Article article) {
-
+        if (article == null) {
+            throw new CommentException(ARTICLE_REQUIRED);
+        }
     }
 
     private void validateAuthor(Member author) {
-
+        if (author == null) {
+            throw new CommentException(MEMBER_REQUIRED);
+        }
     }
 
     private void validateContent(String content) {
+        validateContentNotEmpty(content);
+        validateContentLength(content);
+    }
 
+    private void validateContentNotEmpty(String content) {
+        if (content == null || content.isBlank()) {
+            throw new CommentException(CONTENT_REQUIRED);
+        }
+    }
+
+    private void validateContentLength(String content) {
+        if (content.length() > MAX_CONTENT_LENGTH) {
+            throw new CommentException(CONTENT_TOO_LONG);
+        }
     }
 
 }
