@@ -8,9 +8,9 @@ import org.sopt.global.response.code.SuccessCode;
 public record ApiResponseBody<T, M>(
     boolean success,
     int status,
+    String code,
     String message,
     T data,
-    String code,
     M meta
 ) {
 
@@ -18,8 +18,8 @@ public record ApiResponseBody<T, M>(
         return new ApiResponseBody<>(
             true,
             successCode.getStatus(),
+            successCode.getCode(),
             successCode.getMessage(),
-            null,
             null,
             null
         );
@@ -29,8 +29,8 @@ public record ApiResponseBody<T, M>(
         return new ApiResponseBody<>(
             true,
             successCode.getStatus(),
+            successCode.getCode(),
             successCode.getMessage(),
-            data,
             null,
             null
         );
@@ -40,20 +40,21 @@ public record ApiResponseBody<T, M>(
         return new ApiResponseBody<>(
             true,
             successCode.getStatus(),
+            successCode.getCode(),
             successCode.getMessage(),
-            data,
             null,
             null
         );
     }
 
-    public static ApiResponseBody<Void, ErrorMeta> onFailure(ErrorCode errorCode, ErrorMeta errorMeta) {
+    public static ApiResponseBody<Void, ErrorMeta> onFailure(ErrorCode errorCode,
+        ErrorMeta errorMeta) {
         return new ApiResponseBody<>(
             false,
             errorCode.getStatus(),
             errorCode.getMessage(),
-            null,
             errorCode.getCode(),
+            null,
             errorMeta
         );
     }
@@ -66,9 +67,9 @@ public record ApiResponseBody<T, M>(
         return new ApiResponseBody<>(
             false,
             errorCode.getStatus(),
-            message,
-            null,
             errorCode.getCode(),
+            errorCode.getMessage(),
+            null,
             errorMeta
         );
     }
