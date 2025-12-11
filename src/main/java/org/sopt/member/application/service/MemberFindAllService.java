@@ -4,19 +4,18 @@ import java.util.List;
 import org.sopt.member.application.dto.result.MemberListResult;
 import org.sopt.member.application.port.in.MemberFindAllUseCase;
 import org.sopt.member.domain.model.Member;
-import org.sopt.member.domain.port.out.MemberRepositoryPort;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.sopt.member.domain.port.out.MemberRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MemberFindAllService implements MemberFindAllUseCase {
 
-    private final MemberRepositoryPort memberRepository;
+    private final MemberRepository memberRepository;
 
     public MemberFindAllService(
-        MemberRepositoryPort memberRepositoryPort
+        MemberRepository memberRepository
     ) {
-        this.memberRepository = memberRepositoryPort;
+        this.memberRepository = memberRepository;
     }
 
     @Override
