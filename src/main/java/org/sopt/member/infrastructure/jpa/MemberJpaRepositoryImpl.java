@@ -3,7 +3,6 @@ package org.sopt.member.infrastructure.jpa;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.sopt.comment.infrastructure.jpa.CommentJpaRepository;
 import org.sopt.member.domain.model.Member;
 import org.sopt.member.domain.port.out.MemberRepository;
 import org.springframework.stereotype.Repository;
