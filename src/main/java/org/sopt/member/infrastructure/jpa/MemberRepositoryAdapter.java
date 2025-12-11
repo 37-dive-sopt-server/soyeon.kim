@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class MemberJpaRepositoryImpl implements MemberRepository {
+public class MemberRepositoryAdapter implements MemberRepository {
 
     private final MemberJpaRepository jpa;
 

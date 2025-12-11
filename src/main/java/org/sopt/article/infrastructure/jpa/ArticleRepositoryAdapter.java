@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class ArticleJpaRepositoryImpl implements ArticleRepository {
+public class ArticleRepositoryAdapter implements ArticleRepository {
 
     private final ArticleJpaRepository jpa;
 
