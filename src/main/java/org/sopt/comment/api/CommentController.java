@@ -17,10 +17,11 @@ import org.sopt.comment.application.dto.command.CommentCreateCommand;
 import org.sopt.comment.application.dto.command.CommentUpdateCommand;
 import org.sopt.comment.application.dto.result.CommentCreateResult;
 import org.sopt.comment.application.dto.result.CommentUpdateResult;
-import org.sopt.comment.application.port.in.CommentCreateUsecase;
-import org.sopt.comment.application.port.in.CommentUpdateUsecase;
+import org.sopt.comment.application.port.in.CreateCommentUsecase;
+import org.sopt.comment.application.port.in.UpdateCommentUsecase;
 import org.sopt.global.response.dto.ApiResponseBody;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,8 +35,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CommentController {
 
-    private final CommentCreateUsecase commentCreateUsecase;
-    private final CommentUpdateUsecase commentUpdateUsecase;
+    private final CreateCommentUsecase commentCreateUsecase;
+    private final UpdateCommentUsecase commentUpdateUsecase;
 
     @PostMapping("/articles/{articleId}/comments")
     public ResponseEntity<ApiResponseBody<CommentCreateResponse, Void>> createComment(
@@ -55,6 +56,13 @@ public class CommentController {
     }
 
     // 조회
+    @GetMapping("/articles/{articleId}")
+    public ResponseEntity<ApiResponseBody<Void, Void>> getCommentList (
+        @RequestHeader Long userId,
+        @PathVariable Long articleId
+    ) {
+        return null;
+    }
 
     @PatchMapping("/comments/{commentId}")
     public ResponseEntity<ApiResponseBody<CommentUpdateResponse, Void>> updateComment (

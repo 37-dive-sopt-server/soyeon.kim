@@ -9,7 +9,7 @@ import org.sopt.article.domain.model.Article;
 import org.sopt.article.domain.port.out.ArticleRepository;
 import org.sopt.comment.application.dto.command.CommentCreateCommand;
 import org.sopt.comment.application.dto.result.CommentCreateResult;
-import org.sopt.comment.application.port.in.CommentCreateUsecase;
+import org.sopt.comment.application.port.in.CreateCommentUsecase;
 import org.sopt.comment.domain.model.Comment;
 import org.sopt.comment.domain.port.out.CommentRepository;
 import org.sopt.member.domain.exception.MemberException;
@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 @Service
-public class CommentCreateService implements CommentCreateUsecase {
+public class CreateCommentService implements CreateCommentUsecase {
 
     private final MemberRepository memberRepository;
     private final ArticleRepository articleRepository;

@@ -5,7 +5,7 @@ import static org.sopt.comment.domain.exception.CommentErrorCode.COMMENT_NOT_FOU
 import lombok.RequiredArgsConstructor;
 import org.sopt.comment.application.dto.command.CommentUpdateCommand;
 import org.sopt.comment.application.dto.result.CommentUpdateResult;
-import org.sopt.comment.application.port.in.CommentUpdateUsecase;
+import org.sopt.comment.application.port.in.UpdateCommentUsecase;
 import org.sopt.comment.domain.exception.CommentException;
 import org.sopt.comment.domain.model.Comment;
 import org.sopt.comment.domain.port.out.CommentRepository;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 @Service
-public class CommentUpdateService implements CommentUpdateUsecase {
+public class UpdateCommentService implements UpdateCommentUsecase {
 
     private final CommentRepository commentRepository;
 
