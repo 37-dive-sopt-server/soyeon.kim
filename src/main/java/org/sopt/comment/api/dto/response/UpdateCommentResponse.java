@@ -1,6 +1,6 @@
 package org.sopt.comment.api.dto.response;
 
-public record CommentUpdateResponse(
+public record UpdateCommentResponse(
     Long commentId
 ) {
 

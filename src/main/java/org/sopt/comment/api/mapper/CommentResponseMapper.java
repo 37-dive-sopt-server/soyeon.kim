@@ -1,21 +1,21 @@
 package org.sopt.comment.api.mapper;
 
-import org.sopt.comment.api.dto.response.CommentCreateResponse;
-import org.sopt.comment.api.dto.response.CommentUpdateResponse;
+import org.sopt.comment.api.dto.response.CreateCommentResponse;
+import org.sopt.comment.api.dto.response.UpdateCommentResponse;
 import org.sopt.comment.application.dto.result.CreateCommentResult;
 import org.sopt.comment.application.dto.result.UpdateCommentResult;
 
 public class CommentResponseMapper {
 
-    public static CommentCreateResponse toCreateResponse(
+    public static CreateCommentResponse toCreateResponse(
         CreateCommentResult commentCreateResult
     ) {
-        return new CommentCreateResponse(commentCreateResult.commentId());
+        return new CreateCommentResponse(commentCreateResult.commentId());
     }
 
-    public static CommentUpdateResponse toUpdateResponse(
+    public static UpdateCommentResponse toUpdateResponse(
         UpdateCommentResult commentUpdateResult
     ) {
-        return new CommentUpdateResponse(commentUpdateResult.commentId());
+        return new UpdateCommentResponse(commentUpdateResult.commentId());
     }
 }
