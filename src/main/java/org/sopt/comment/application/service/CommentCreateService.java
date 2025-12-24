@@ -16,7 +16,9 @@ import org.sopt.member.domain.exception.MemberException;
 import org.sopt.member.domain.model.Member;
 import org.sopt.member.domain.port.out.MemberRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class CommentCreateService implements CommentCreateUsecase {
