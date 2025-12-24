@@ -1,9 +1,9 @@
 package org.sopt.comment.application.port.in;
 
-import org.sopt.comment.application.dto.command.CommentCreateCommand;
-import org.sopt.comment.application.dto.result.CommentCreateResult;
+import org.sopt.comment.application.dto.command.CreateCommentCommand;
+import org.sopt.comment.application.dto.result.CreateCommentResult;
 
 public interface CreateCommentUsecase {
 
-    CommentCreateResult writeComment(CommentCreateCommand commentCreateCommand);
+    CreateCommentResult writeComment(CreateCommentCommand createCommentCommand);
 }

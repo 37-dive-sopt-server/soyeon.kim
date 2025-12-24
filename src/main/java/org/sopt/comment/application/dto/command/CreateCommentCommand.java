@@ -1,6 +1,6 @@
 package org.sopt.comment.application.dto.command;
 
-public record CommentCreateCommand(
+public record CreateCommentCommand(
     Long userId,
     Long articleId,
     String content

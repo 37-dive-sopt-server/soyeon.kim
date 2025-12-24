@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.sopt.article.domain.exception.ArticleException;
 import org.sopt.article.domain.model.Article;
 import org.sopt.article.domain.port.out.ArticleRepository;
-import org.sopt.comment.application.dto.command.CommentCreateCommand;
-import org.sopt.comment.application.dto.result.CommentCreateResult;
+import org.sopt.comment.application.dto.command.CreateCommentCommand;
+import org.sopt.comment.application.dto.result.CreateCommentResult;
 import org.sopt.comment.application.port.in.CreateCommentUsecase;
 import org.sopt.comment.domain.model.Comment;
 import org.sopt.comment.domain.port.out.CommentRepository;
@@ -28,14 +28,14 @@ public class CreateCommentService implements CreateCommentUsecase {
     private final CommentRepository commentRepository;
 
     @Override
-    public CommentCreateResult writeComment(CommentCreateCommand commentCreateCommand) {
-        Member member = memberRepository.findById(commentCreateCommand.userId())
+    public CreateCommentResult writeComment(CreateCommentCommand createCommentCommand) {
+        Member member = memberRepository.findById(createCommentCommand.userId())
             .orElseThrow(() -> new MemberException(MEMBER_NOT_FOUND));
-        Article article = articleRepository.findById(commentCreateCommand.articleId())
+        Article article = articleRepository.findById(createCommentCommand.articleId())
             .orElseThrow(() -> new ArticleException(ARTICLE_NOT_FOUND));
-        Comment comment = Comment.create(article, member, commentCreateCommand.content());
+        Comment comment = Comment.create(article, member, createCommentCommand.content());
         commentRepository.save(comment);
 
-        return CommentCreateResult.create(comment);
+        return CreateCommentResult.create(comment);
     }
 }

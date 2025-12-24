@@ -3,8 +3,8 @@ package org.sopt.comment.application.service;
 import static org.sopt.comment.domain.exception.CommentErrorCode.COMMENT_NOT_FOUND;
 
 import lombok.RequiredArgsConstructor;
-import org.sopt.comment.application.dto.command.CommentUpdateCommand;
-import org.sopt.comment.application.dto.result.CommentUpdateResult;
+import org.sopt.comment.application.dto.command.UpdateCommentCommand;
+import org.sopt.comment.application.dto.result.UpdateCommentResult;
 import org.sopt.comment.application.port.in.UpdateCommentUsecase;
 import org.sopt.comment.domain.exception.CommentException;
 import org.sopt.comment.domain.model.Comment;
@@ -19,11 +19,11 @@ public class UpdateCommentService implements UpdateCommentUsecase {
 
     private final CommentRepository commentRepository;
 
-    public CommentUpdateResult updateComment(CommentUpdateCommand commentUpdateCommand) {
-        Comment comment = commentRepository.findById(commentUpdateCommand.commentId())
+    public UpdateCommentResult updateComment(UpdateCommentCommand updateCommentCommand) {
+        Comment comment = commentRepository.findById(updateCommentCommand.commentId())
             .orElseThrow(() -> new CommentException(COMMENT_NOT_FOUND));
-        comment.update(commentUpdateCommand.userId(), commentUpdateCommand.content());
+        comment.update(updateCommentCommand.userId(), updateCommentCommand.content());
 
-        return CommentUpdateResult.create(comment);
+        return UpdateCommentResult.create(comment);
     }
 }
