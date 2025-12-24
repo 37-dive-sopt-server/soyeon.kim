@@ -31,7 +31,7 @@ public class Comment extends BaseEntity {
     private static final int MAX_CONTENT_LENGTH = 300;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -31,8 +31,19 @@ public record ApiResponseBody<T, M>(
             successCode.getStatus(),
             successCode.getCode(),
             successCode.getMessage(),
-            null,
+            data,
             null
+        );
+    }
+
+    public static <T, M> ApiResponseBody<T, M> ok(SuccessCode successCode, T data, M meta) {
+        return new ApiResponseBody<>(
+            true,
+            successCode.getStatus(),
+            successCode.getCode(),
+            successCode.getMessage(),
+            data,
+            meta
         );
     }
 
@@ -42,13 +53,15 @@ public record ApiResponseBody<T, M>(
             successCode.getStatus(),
             successCode.getCode(),
             successCode.getMessage(),
-            null,
+            data,
             null
         );
     }
 
-    public static ApiResponseBody<Void, ErrorMeta> onFailure(ErrorCode errorCode,
-        ErrorMeta errorMeta) {
+    public static ApiResponseBody<Void, ErrorMeta> onFailure(
+        ErrorCode errorCode,
+        ErrorMeta errorMeta
+    ) {
         return new ApiResponseBody<>(
             false,
             errorCode.getStatus(),
@@ -68,7 +81,7 @@ public record ApiResponseBody<T, M>(
             false,
             errorCode.getStatus(),
             errorCode.getCode(),
-            errorCode.getMessage(),
+            message,
             null,
             errorMeta
         );

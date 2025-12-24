@@ -1,23 +1,28 @@
 package org.sopt.comment.api;
 
 import static org.sopt.comment.api.code.CommentSuccessCode.COMMENT_CREATED_SUCCESS;
+import static org.sopt.comment.api.code.CommentSuccessCode.COMMENT_LIST_RETRIEVED_SUCCESS;
 import static org.sopt.comment.api.code.CommentSuccessCode.COMMENT_UPDATED_SUCCESS;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.sopt.comment.api.dto.request.CommentCreateRequest;
-import org.sopt.comment.api.dto.request.CommentUpdateRequest;
-import org.sopt.comment.api.dto.response.CommentCreateResponse;
-import org.sopt.comment.api.dto.response.CommentUpdateResponse;
+import org.sopt.comment.api.dto.request.CreateCommentRequest;
+import org.sopt.comment.api.dto.request.UpdateCommentRequest;
+import org.sopt.comment.api.dto.response.CreateCommentResponse;
+import org.sopt.comment.api.dto.response.GetCommentListResponse;
+import org.sopt.comment.api.dto.response.GetCommentMetaResponse;
+import org.sopt.comment.api.dto.response.UpdateCommentResponse;
 import org.sopt.comment.api.mapper.CommentRequestMapper;
 import org.sopt.comment.api.mapper.CommentResponseMapper;
-import org.sopt.comment.application.dto.command.CommentCreateCommand;
-import org.sopt.comment.application.dto.command.CommentUpdateCommand;
-import org.sopt.comment.application.dto.result.CommentCreateResult;
-import org.sopt.comment.application.dto.result.CommentUpdateResult;
+import org.sopt.comment.application.dto.command.CreateCommentCommand;
+import org.sopt.comment.application.dto.command.UpdateCommentCommand;
+import org.sopt.comment.application.dto.result.CreateCommentResult;
+import org.sopt.comment.application.dto.result.GetCommentListResult;
+import org.sopt.comment.application.dto.result.UpdateCommentResult;
 import org.sopt.comment.application.port.in.CreateCommentUsecase;
+import org.sopt.comment.application.port.in.GetCommentListUsecase;
 import org.sopt.comment.application.port.in.UpdateCommentUsecase;
 import org.sopt.global.response.dto.ApiResponseBody;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +33,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/api/v1")
@@ -35,50 +41,64 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CommentController {
 
-    private final CreateCommentUsecase commentCreateUsecase;
-    private final UpdateCommentUsecase commentUpdateUsecase;
+    private final CreateCommentUsecase createCommentUsecase;
+    private final UpdateCommentUsecase updateCommentUsecase;
+    private final GetCommentListUsecase getCommentListUsecase;
 
     @PostMapping("/articles/{articleId}/comments")
-    public ResponseEntity<ApiResponseBody<CommentCreateResponse, Void>> createComment(
+    public ResponseEntity<ApiResponseBody<CreateCommentResponse, Void>> createComment(
         @RequestHeader Long userId,
         @PathVariable Long articleId,
-        @Valid @RequestBody CommentCreateRequest commentCreateRequest
+        @Valid @RequestBody CreateCommentRequest createCommentRequest
     ) {
-        CommentCreateCommand commentCreateCommand = CommentRequestMapper
-            .toCommentCreateCommand(userId, articleId, commentCreateRequest);
-        CommentCreateResult commentCreateResult = commentCreateUsecase
-            .writeComment(commentCreateCommand);
-        CommentCreateResponse commentCreateResponse = CommentResponseMapper
+        CreateCommentCommand createCommentCommand = CommentRequestMapper
+            .toCommentCreateCommand(userId, articleId, createCommentRequest);
+        CreateCommentResult commentCreateResult = createCommentUsecase
+            .writeComment(createCommentCommand);
+        CreateCommentResponse createCommentResponse = CommentResponseMapper
             .toCreateResponse(commentCreateResult);
 
         return ResponseEntity.status(CREATED)
-            .body(ApiResponseBody.created(COMMENT_CREATED_SUCCESS, commentCreateResponse));
+            .body(ApiResponseBody.created(COMMENT_CREATED_SUCCESS, createCommentResponse));
     }
 
-    // 조회
-    @GetMapping("/articles/{articleId}")
-    public ResponseEntity<ApiResponseBody<Void, Void>> getCommentList (
-        @RequestHeader Long userId,
-        @PathVariable Long articleId
+    @GetMapping("/articles/{articleId}/comments")
+    public ResponseEntity<ApiResponseBody<GetCommentListResponse, GetCommentMetaResponse>> getCommentList(
+        @PathVariable Long articleId,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size
     ) {
-        return null;
+        GetCommentListResult getCommentListResult = getCommentListUsecase
+            .findByArticleId(articleId, page, size);
+        GetCommentListResponse getCommentListResponse = CommentResponseMapper.toGetListResponse(
+            getCommentListResult
+        );
+        GetCommentMetaResponse getCommentMetaResponse = GetCommentMetaResponse
+            .create(getCommentListResult.getCommentMetaResult());
+
+        return ResponseEntity.status(OK)
+            .body(ApiResponseBody.ok(
+                COMMENT_LIST_RETRIEVED_SUCCESS,
+                getCommentListResponse,
+                getCommentMetaResponse
+            ));
     }
 
     @PatchMapping("/comments/{commentId}")
-    public ResponseEntity<ApiResponseBody<CommentUpdateResponse, Void>> updateComment (
+    public ResponseEntity<ApiResponseBody<UpdateCommentResponse, Void>> updateComment(
         @RequestHeader Long userId,
         @PathVariable Long commentId,
-        @Valid @RequestBody CommentUpdateRequest commentUpdateRequest
+        @Valid @RequestBody UpdateCommentRequest updateCommentRequest
     ) {
-        CommentUpdateCommand commentUpdateCommand = CommentRequestMapper
-            .toCommentUpdateCommand(userId, commentId, commentUpdateRequest);
-        CommentUpdateResult commentUpdateResult = commentUpdateUsecase
-            .updateComment(commentUpdateCommand);
-        CommentUpdateResponse commentUpdateResponse = CommentResponseMapper
+        UpdateCommentCommand updateCommentCommand = CommentRequestMapper
+            .toCommentUpdateCommand(userId, commentId, updateCommentRequest);
+        UpdateCommentResult commentUpdateResult = updateCommentUsecase
+            .updateComment(updateCommentCommand);
+        UpdateCommentResponse updateCommentResponse = CommentResponseMapper
             .toUpdateResponse(commentUpdateResult);
 
         return ResponseEntity.status(OK)
-            .body(ApiResponseBody.ok(COMMENT_UPDATED_SUCCESS, commentUpdateResponse));
+            .body(ApiResponseBody.ok(COMMENT_UPDATED_SUCCESS, updateCommentResponse));
     }
 
     // 삭제
