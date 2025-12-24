@@ -1,5 +1,6 @@
 package org.sopt.comment.infrastructure.jpa;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.sopt.comment.domain.model.Comment;
 import org.sopt.comment.domain.port.out.CommentRepository;
@@ -12,8 +13,13 @@ public class CommentRepositoryAdapter implements CommentRepository {
     private final CommentJpaRepository jpa;
 
     @Override
-    public Comment save(Comment comment) {
-        return jpa.save(comment);
+    public void save(Comment comment) {
+        jpa.save(comment);
+    }
+
+    @Override
+    public Optional<Comment> findById(Long id) {
+        return jpa.findById(id);
     }
 
 }

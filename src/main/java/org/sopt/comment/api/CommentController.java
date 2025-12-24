@@ -1,17 +1,27 @@
 package org.sopt.comment.api;
 
 import static org.sopt.comment.api.code.CommentSuccessCode.COMMENT_CREATED_SUCCESS;
+import static org.sopt.comment.api.code.CommentSuccessCode.COMMENT_UPDATED_SUCCESS;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.sopt.comment.api.dto.request.CommentCreateRequest;
+import org.sopt.comment.api.dto.request.CommentUpdateRequest;
 import org.sopt.comment.api.dto.response.CommentCreateResponse;
+import org.sopt.comment.api.dto.response.CommentUpdateResponse;
 import org.sopt.comment.api.mapper.CommentRequestMapper;
 import org.sopt.comment.api.mapper.CommentResponseMapper;
 import org.sopt.comment.application.dto.command.CommentCreateCommand;
+import org.sopt.comment.application.dto.command.CommentUpdateCommand;
 import org.sopt.comment.application.dto.result.CommentCreateResult;
+import org.sopt.comment.application.dto.result.CommentUpdateResult;
 import org.sopt.comment.application.port.in.CommentCreateUsecase;
+import org.sopt.comment.application.port.in.CommentUpdateUsecase;
 import org.sopt.global.response.dto.ApiResponseBody;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,9 +35,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class CommentController {
 
     private final CommentCreateUsecase commentCreateUsecase;
+    private final CommentUpdateUsecase commentUpdateUsecase;
 
     @PostMapping("/articles/{articleId}/comments")
-    public ApiResponseBody<CommentCreateResponse, Void> createComment(
+    public ResponseEntity<ApiResponseBody<CommentCreateResponse, Void>> createComment(
         @RequestHeader Long userId,
         @PathVariable Long articleId,
         @Valid @RequestBody CommentCreateRequest commentCreateRequest
@@ -39,12 +50,29 @@ public class CommentController {
         CommentCreateResponse commentCreateResponse = CommentResponseMapper
             .toCreateResponse(commentCreateResult);
 
-        return ApiResponseBody.created(COMMENT_CREATED_SUCCESS, commentCreateResponse);
+        return ResponseEntity.status(CREATED)
+            .body(ApiResponseBody.created(COMMENT_CREATED_SUCCESS, commentCreateResponse));
     }
 
-    // 수정
+    // 조회
+
+    @PatchMapping("/comments/{commentId}")
+    public ResponseEntity<ApiResponseBody<CommentUpdateResponse, Void>> updateComment (
+        @RequestHeader Long userId,
+        @PathVariable Long commentId,
+        @Valid @RequestBody CommentUpdateRequest commentUpdateRequest
+    ) {
+        CommentUpdateCommand commentUpdateCommand = CommentRequestMapper
+            .toCommentUpdateCommand(userId, commentId, commentUpdateRequest);
+        CommentUpdateResult commentUpdateResult = commentUpdateUsecase
+            .updateComment(commentUpdateCommand);
+        CommentUpdateResponse commentUpdateResponse = CommentResponseMapper
+            .toUpdateResponse(commentUpdateResult);
+
+        return ResponseEntity.status(OK)
+            .body(ApiResponseBody.ok(COMMENT_UPDATED_SUCCESS, commentUpdateResponse));
+    }
 
     // 삭제
 
-    // 조회
 }

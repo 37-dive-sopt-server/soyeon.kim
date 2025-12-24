@@ -1,6 +1,7 @@
 package org.sopt.comment.domain.model;
 
 import static org.sopt.comment.domain.exception.CommentErrorCode.ARTICLE_REQUIRED;
+import static org.sopt.comment.domain.exception.CommentErrorCode.COMMENT_EDIT_FORBIDDEN;
 import static org.sopt.comment.domain.exception.CommentErrorCode.CONTENT_REQUIRED;
 import static org.sopt.comment.domain.exception.CommentErrorCode.CONTENT_TOO_LONG;
 import static org.sopt.comment.domain.exception.CommentErrorCode.MEMBER_REQUIRED;
@@ -58,6 +59,18 @@ public class Comment extends BaseEntity {
             .author(author)
             .content(content)
             .build();
+    }
+
+    public void update(Long userId, String content) {
+        validateCanEdit(userId);
+        validateContent(content);
+        this.content = content;
+    }
+
+    private void validateCanEdit(Long userId) {
+        if(!this.author.getId().equals(userId)) {
+            throw new CommentException(COMMENT_EDIT_FORBIDDEN);
+        }
     }
 
     private void validateComment(Article article, Member author, String content) {

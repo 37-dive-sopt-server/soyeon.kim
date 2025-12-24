@@ -9,6 +9,7 @@ import org.sopt.global.response.code.SuccessCode;
 public enum CommentSuccessCode implements SuccessCode {
 
     // 200 OK
+    COMMENT_UPDATED_SUCCESS(200, "COMMENT_200_001", "성공적으로 댓글을 수정했습니다."),
 
     // 201 CREATED
     COMMENT_CREATED_SUCCESS(201, "COMMENT_201_001", "성공적으로 댓글을 작성했습니다."),
