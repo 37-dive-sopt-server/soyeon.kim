@@ -1,9 +1,9 @@
 package org.sopt.member.api.dto.request;
 
-import static org.sopt.global.exception.ErrorCode.INVALID_DATE_FORMAT;
-import static org.sopt.global.exception.ErrorCode.INVALID_EMAIL_FORMAT;
-import static org.sopt.global.exception.ErrorCode.INVALID_MAPPING_PARAMETER;
-import static org.sopt.global.exception.ErrorCode.INVALID_NULL_DATA;
+import static org.sopt.global.exception.GlobalErrorCode.INVALID_DATE_FORMAT;
+import static org.sopt.global.exception.GlobalErrorCode.INVALID_EMAIL_FORMAT;
+import static org.sopt.global.exception.GlobalErrorCode.INVALID_MAPPING_PARAMETER;
+import static org.sopt.global.exception.GlobalErrorCode.INVALID_NULL_DATA;
 
 import java.util.regex.Pattern;
 import org.sopt.global.exception.BusinessException;

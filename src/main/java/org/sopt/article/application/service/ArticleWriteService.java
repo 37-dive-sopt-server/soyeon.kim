@@ -1,7 +1,7 @@
 package org.sopt.article.application.service;
 
-import static org.sopt.global.exception.ErrorCode.ARTICLE_BY_NAME_ALREADY_EXISTS;
-import static org.sopt.global.exception.ErrorCode.MEMBER_NOT_FOUND;
+import static org.sopt.article.domain.exception.ArticleErrorCode.ARTICLE_BY_NAME_ALREADY_EXISTS;
+import static org.sopt.member.domain.exception.MemberErrorCode.MEMBER_NOT_FOUND;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.article.application.dto.command.ArticleWriteCommand;
@@ -12,14 +12,14 @@ import org.sopt.article.domain.model.Article;
 import org.sopt.article.domain.port.out.ArticleRepository;
 import org.sopt.member.domain.exception.MemberException;
 import org.sopt.member.domain.model.Member;
-import org.sopt.member.domain.port.out.MemberRepositoryPort;
+import org.sopt.member.domain.port.out.MemberRepository;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
 public class ArticleWriteService implements ArticleWriteUsecase {
 
-    private final MemberRepositoryPort memberRepositoryPort;
+    private final MemberRepository memberRepository;
     private final ArticleRepository articleRepository;
 
     public ArticleCreateResult writeArticle(ArticleWriteCommand articleWriteCommand) {
@@ -27,7 +27,7 @@ public class ArticleWriteService implements ArticleWriteUsecase {
             throw new ArticleException(ARTICLE_BY_NAME_ALREADY_EXISTS);
         }
 
-        Member member = memberRepositoryPort.findById(articleWriteCommand.memberId())
+        Member member = memberRepository.findById(articleWriteCommand.memberId())
             .orElseThrow(() -> new MemberException(MEMBER_NOT_FOUND));
         Article article = Article.create(
             member,

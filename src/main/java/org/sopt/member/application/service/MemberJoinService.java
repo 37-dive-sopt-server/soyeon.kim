@@ -1,26 +1,25 @@
 package org.sopt.member.application.service;
 
-import static org.sopt.global.exception.ErrorCode.INVALID_MAPPING_PARAMETER;
-import static org.sopt.global.exception.ErrorCode.MEMBER_BY_EMAIL_ALREADY_EXISTS;
+import static org.sopt.global.exception.GlobalErrorCode.INVALID_MAPPING_PARAMETER;
+import static org.sopt.member.domain.exception.MemberErrorCode.MEMBER_BY_EMAIL_ALREADY_EXISTS;
 
 import org.sopt.member.application.dto.command.MemberJoinCommand;
 import org.sopt.member.application.dto.result.MemberJoinResult;
 import org.sopt.member.application.port.in.MemberJoinUseCase;
 import org.sopt.member.domain.exception.MemberException;
 import org.sopt.member.domain.model.Member;
-import org.sopt.member.domain.port.out.MemberRepositoryPort;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.sopt.member.domain.port.out.MemberRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MemberJoinService implements MemberJoinUseCase {
 
-    private final MemberRepositoryPort memberRepository;
+    private final MemberRepository memberRepository;
 
     public MemberJoinService(
-        MemberRepositoryPort memberRepositoryPort
+        MemberRepository memberRepository
     ) {
-        this.memberRepository = memberRepositoryPort;
+        this.memberRepository = memberRepository;
     }
 
     @Override

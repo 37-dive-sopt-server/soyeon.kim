@@ -1,21 +1,17 @@
 package org.sopt.member.domain.model;
 
-import static org.sopt.global.exception.ErrorCode.AGE_MUST_UPPER_THAN_20;
+import static org.sopt.member.domain.exception.MemberErrorCode.AGE_MUST_UPPER_THAN_20;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.sopt.article.domain.model.Article;
 import org.sopt.global.model.BaseEntity;
 import org.sopt.member.domain.exception.MemberException;
 
@@ -37,9 +33,6 @@ public class Member extends BaseEntity {
     private String email;
 
     private Gender gender;
-
-    @OneToMany
-    private List<Article> articleList = new ArrayList<>();
 
     public static Member of(
         String name,

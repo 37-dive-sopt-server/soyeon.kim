@@ -1,4 +1,4 @@
-package org.sopt.global.response;
+package org.sopt.global.response.dto;
 
 public record ErrorMeta(
     String path,

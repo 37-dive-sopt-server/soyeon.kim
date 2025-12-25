@@ -1,11 +1,11 @@
 package org.sopt.member.api;
 
-import static org.sopt.global.response.SuccessCode.MEMBER_CREATED_SUCCESS;
-import static org.sopt.global.response.SuccessCode.MEMBER_DELETED_SUCCESS;
-import static org.sopt.global.response.SuccessCode.MEMBER_LIST_RETRIEVED_SUCCESS;
-import static org.sopt.global.response.SuccessCode.MEMBER_RETRIEVED_SUCCESS;
+import static org.sopt.member.api.code.MemberSuccessCode.MEMBER_CREATED_SUCCESS;
+import static org.sopt.member.api.code.MemberSuccessCode.MEMBER_DELETED_SUCCESS;
+import static org.sopt.member.api.code.MemberSuccessCode.MEMBER_LIST_RETRIEVED_SUCCESS;
+import static org.sopt.member.api.code.MemberSuccessCode.MEMBER_RETRIEVED_SUCCESS;
 
-import org.sopt.global.response.ApiResponseBody;
+import org.sopt.global.response.dto.ApiResponseBody;
 import org.sopt.member.api.dto.request.MemberCreateRequest;
 import org.sopt.member.api.dto.response.MemberCreateResponse;
 import org.sopt.member.api.dto.response.MemberFindOneResponse;

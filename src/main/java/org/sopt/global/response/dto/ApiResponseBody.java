@@ -1,15 +1,16 @@
-package org.sopt.global.response;
+package org.sopt.global.response.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.sopt.global.exception.ErrorCode;
+import org.sopt.global.response.code.SuccessCode;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record ApiResponseBody<T, M>(
     boolean success,
     int status,
+    String code,
     String message,
     T data,
-    String code,
     M meta
 ) {
 
@@ -17,8 +18,8 @@ public record ApiResponseBody<T, M>(
         return new ApiResponseBody<>(
             true,
             successCode.getStatus(),
+            successCode.getCode(),
             successCode.getMessage(),
-            null,
             null,
             null
         );
@@ -28,10 +29,21 @@ public record ApiResponseBody<T, M>(
         return new ApiResponseBody<>(
             true,
             successCode.getStatus(),
+            successCode.getCode(),
             successCode.getMessage(),
             data,
-            null,
             null
+        );
+    }
+
+    public static <T, M> ApiResponseBody<T, M> ok(SuccessCode successCode, T data, M meta) {
+        return new ApiResponseBody<>(
+            true,
+            successCode.getStatus(),
+            successCode.getCode(),
+            successCode.getMessage(),
+            data,
+            meta
         );
     }
 
@@ -39,20 +51,23 @@ public record ApiResponseBody<T, M>(
         return new ApiResponseBody<>(
             true,
             successCode.getStatus(),
+            successCode.getCode(),
             successCode.getMessage(),
             data,
-            null,
             null
         );
     }
 
-    public static ApiResponseBody<Void, ErrorMeta> onFailure(ErrorCode errorCode, ErrorMeta errorMeta) {
+    public static ApiResponseBody<Void, ErrorMeta> onFailure(
+        ErrorCode errorCode,
+        ErrorMeta errorMeta
+    ) {
         return new ApiResponseBody<>(
             false,
             errorCode.getStatus(),
             errorCode.getMessage(),
-            null,
             errorCode.getCode(),
+            null,
             errorMeta
         );
     }
@@ -65,9 +80,9 @@ public record ApiResponseBody<T, M>(
         return new ApiResponseBody<>(
             false,
             errorCode.getStatus(),
+            errorCode.getCode(),
             message,
             null,
-            errorCode.getCode(),
             errorMeta
         );
     }

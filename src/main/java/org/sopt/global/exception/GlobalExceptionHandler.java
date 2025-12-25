@@ -1,8 +1,11 @@
 package org.sopt.global.exception;
 
+import static org.sopt.global.exception.GlobalErrorCode.INTERNAL_SERVER_ERROR;
+import static org.sopt.global.exception.GlobalErrorCode.INVALID_MAPPING_PARAMETER;
+
 import jakarta.servlet.http.HttpServletRequest;
-import org.sopt.global.response.ApiResponseBody;
-import org.sopt.global.response.ErrorMeta;
+import org.sopt.global.response.dto.ApiResponseBody;
+import org.sopt.global.response.dto.ErrorMeta;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -39,7 +42,7 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
-            .body(ApiResponseBody.onFailure(ErrorCode.INVALID_MAPPING_PARAMETER, null));
+            .body(ApiResponseBody.onFailure(INVALID_MAPPING_PARAMETER, null));
     }
 
     @ExceptionHandler(BusinessException.class)
@@ -71,13 +74,12 @@ public class GlobalExceptionHandler {
         System.err.println(e.getClass().getName() + ": " + e.getMessage());
         System.err.println("===============================");
 
-        ErrorCode internalServerError = ErrorCode.INTERNAL_SERVER_ERROR;
         ErrorMeta meta = new ErrorMeta(
             request.getRequestURI(),
             System.currentTimeMillis()
         );
 
         return ResponseEntity.status(500)
-            .body(ApiResponseBody.onFailure(internalServerError, e.getMessage(), meta));
+            .body(ApiResponseBody.onFailure(INTERNAL_SERVER_ERROR, e.getMessage(), meta));
     }
 }

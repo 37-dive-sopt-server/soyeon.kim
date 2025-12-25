@@ -1,23 +1,22 @@
 package org.sopt.member.application.service;
 
-import static org.sopt.global.exception.ErrorCode.MEMBER_NOT_FOUND;
+import static org.sopt.member.domain.exception.MemberErrorCode.MEMBER_NOT_FOUND;
 
 import java.util.NoSuchElementException;
 import org.sopt.member.application.port.in.MemberDeleteUseCase;
 import org.sopt.member.domain.exception.MemberException;
-import org.sopt.member.domain.port.out.MemberRepositoryPort;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.sopt.member.domain.port.out.MemberRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MemberDeleteService implements MemberDeleteUseCase {
 
-    private final MemberRepositoryPort memberRepository;
+    private final MemberRepository memberRepository;
 
     public MemberDeleteService(
-        MemberRepositoryPort memberRepositoryPort
+        MemberRepository memberRepository
     ) {
-        this.memberRepository = memberRepositoryPort;
+        this.memberRepository = memberRepository;
     }
 
     @Override
