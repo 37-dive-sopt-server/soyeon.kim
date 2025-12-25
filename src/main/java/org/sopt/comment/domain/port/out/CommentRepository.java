@@ -9,6 +9,10 @@ import org.springframework.data.domain.Pageable;
 public interface CommentRepository {
 
     void save(Comment comment);
+
     Optional<Comment> findById(Long id);
+
     Page<Comment> findByArticle(Article article, Pageable pageable);
+
+    void deleteById(Long commentId);
 }

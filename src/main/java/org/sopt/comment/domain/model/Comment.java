@@ -67,8 +67,12 @@ public class Comment extends BaseEntity {
         this.content = content;
     }
 
+    public boolean isOwner(Long userId) {
+        return this.author.getId().equals(userId);
+    }
+
     private void validateCanEdit(Long userId) {
-        if(!this.author.getId().equals(userId)) {
+        if (!this.author.getId().equals(userId)) {
             throw new CommentException(COMMENT_EDIT_FORBIDDEN);
         }
     }

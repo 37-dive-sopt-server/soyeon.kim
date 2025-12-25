@@ -1,6 +1,7 @@
 package org.sopt.comment.api;
 
 import static org.sopt.comment.api.code.CommentSuccessCode.COMMENT_CREATED_SUCCESS;
+import static org.sopt.comment.api.code.CommentSuccessCode.COMMENT_DELETE_SUCCESS;
 import static org.sopt.comment.api.code.CommentSuccessCode.COMMENT_LIST_RETRIEVED_SUCCESS;
 import static org.sopt.comment.api.code.CommentSuccessCode.COMMENT_UPDATED_SUCCESS;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -22,10 +23,12 @@ import org.sopt.comment.application.dto.result.CreateCommentResult;
 import org.sopt.comment.application.dto.result.GetCommentListResult;
 import org.sopt.comment.application.dto.result.UpdateCommentResult;
 import org.sopt.comment.application.port.in.CreateCommentUsecase;
+import org.sopt.comment.application.port.in.DeleteCommentUsecase;
 import org.sopt.comment.application.port.in.GetCommentListUsecase;
 import org.sopt.comment.application.port.in.UpdateCommentUsecase;
 import org.sopt.global.response.dto.ApiResponseBody;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +47,7 @@ public class CommentController {
     private final CreateCommentUsecase createCommentUsecase;
     private final UpdateCommentUsecase updateCommentUsecase;
     private final GetCommentListUsecase getCommentListUsecase;
+    private final DeleteCommentUsecase deleteCommentUsecase;
 
     @PostMapping("/articles/{articleId}/comments")
     public ResponseEntity<ApiResponseBody<CreateCommentResponse, Void>> createComment(
@@ -101,6 +105,15 @@ public class CommentController {
             .body(ApiResponseBody.ok(COMMENT_UPDATED_SUCCESS, updateCommentResponse));
     }
 
-    // 삭제
+    @DeleteMapping("/comments/{commentId}")
+    public ResponseEntity<ApiResponseBody<Void, Void>> deleteComment(
+        @RequestHeader Long userId,
+        @PathVariable Long commentId
+    ) {
+        deleteCommentUsecase.deleteComment(userId, commentId);
+
+        return ResponseEntity.status(OK)
+            .body(ApiResponseBody.ok(COMMENT_DELETE_SUCCESS));
+    }
 
 }

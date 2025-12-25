@@ -30,4 +30,9 @@ public class CommentRepositoryAdapter implements CommentRepository {
         return jpa.findByArticle(article, pageable);
     }
 
+    @Override
+    public void deleteById(Long id) {
+        jpa.deleteById(id);
+    }
+
 }

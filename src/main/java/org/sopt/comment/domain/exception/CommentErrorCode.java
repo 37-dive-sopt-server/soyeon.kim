@@ -16,6 +16,7 @@ public enum CommentErrorCode implements ErrorCode {
 
     // 403 FORBIDDEN
     COMMENT_EDIT_FORBIDDEN(403, "COMMENT_403_001", "댓글 수정 권한이 없습니다."),
+    COMMENT_DELETE_FORBIDDEN(403, "COMMENT_403_002", "댓글 삭제 권한이 없습니다."),
 
     // 404 NOT FOUND
     COMMENT_NOT_FOUND(404, "COMMENT_404_001", "해당 댓글이 존재하지 않습니다."),
